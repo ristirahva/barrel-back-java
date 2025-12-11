@@ -1,0 +1,13 @@
+INSERT INTO barrel (id, cooper_id, volume, wood_id, description) VALUES(1, 1, 3, (SELECT id FROM wood where name='Дуб кавказский скальный'), 'Сысоев, бочка с краником');
+INSERT INTO barrel (id, cooper_id, volume, wood_id) VALUES(2, 2, 5, (SELECT id FROM wood where name='Дуб кавказский скальный'));
+INSERT INTO barrel (id, cooper_id, volume, wood_id) VALUES(3, 2, 5, (SELECT id FROM wood where name='Дуб черешчатый'));
+INSERT INTO barrel (id, cooper_id, volume, wood_id) VALUES(4, 2, 10, (SELECT id FROM wood where name='Дуб кавказский скальный'));
+INSERT INTO barrel (id, cooper_id, volume, wood_id) VALUES(5, 1, 5, (SELECT id FROM wood where name='Ясень'));
+INSERT INTO barrel (id, cooper_id, volume, wood_id) VALUES(6, 1, 5, (SELECT id FROM wood where name='Каштан'));
+INSERT INTO barrel (id, cooper_id, volume, wood_id) VALUES(7, 2, 20, (SELECT id FROM wood where name='Дуб кавказский скальный'));
+INSERT INTO barrel (id, cooper_id, volume, wood_id) VALUES(8, 1, 5, (SELECT id FROM wood where name='Кедр сибирский'));
+INSERT INTO barrel (id, cooper_id, volume, wood_id) VALUES(9, 2, 20, (SELECT id FROM wood where name='Дуб кавказский скальный'));
+INSERT INTO barrel (id, cooper_id, volume, wood_id, description) VALUES(10, 1, 5, (SELECT id FROM wood where name='Вишня'), 'Сысоев, большая доля ангелов');
+INSERT INTO barrel (id, cooper_id, volume, wood_id, description) VALUES(11, 1, 10, (SELECT id FROM wood where name='Дуб кавказский скальный/Дуб канадский'), 'Сысоев, очень долго делали, но результат стоил того');
+INSERT INTO barrel (id, cooper_id, volume, wood_id, description) VALUES(12, 1, 15, (SELECT id FROM wood where name='Ясень'), 'Сысоев сильный обжиг');
+INSERT INTO barrel (id, cooper_id, volume, wood_id, description) VALUES(13, 1, 25, (SELECT id FROM wood where name='Дуб кавказский скальный'), 'Сысоев BLACK PREMIUM средний обжиг');
