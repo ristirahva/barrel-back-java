@@ -1,8 +1,9 @@
 package org.km.db.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table
@@ -33,4 +34,9 @@ public class Barrel {
     public String getDescription() {
         return description;
     }
+
+    @OneToMany(mappedBy = "barrel",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private Set<DrinkInBarrel> courseAssociations = new HashSet<>();
 }
