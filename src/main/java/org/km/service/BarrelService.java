@@ -25,6 +25,10 @@ public class BarrelService {
         return repository.findAll();
     }
 
+    public List<Barrel> getBarrelsByWoodId(int woodId) {
+        return repository.findByWoodId(woodId);
+    }
+
     public Optional<Barrel> getBarrel(int barrelId) {
         return repository.findById(barrelId);
     }

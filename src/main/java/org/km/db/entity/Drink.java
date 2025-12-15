@@ -25,6 +25,9 @@ public class Drink {
         this.description = description;
     }
 
+    private Drink() {
+    }
+
     public int getId() {
         return id;
     }

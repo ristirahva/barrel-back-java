@@ -21,6 +21,9 @@ public class Cooper {
         this.url = url;
     }
 
+    private Cooper() {
+    }
+
     public int getId() {
         return id;
     }
