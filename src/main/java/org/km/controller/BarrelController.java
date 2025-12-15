@@ -41,9 +41,9 @@ public class BarrelController {
             value = BARREL_URL + "/{id}",
             produces = "application/json")
     public ResponseEntity<Barrel> getBarrel(@PathVariable Integer id) {
-        Optional<Barrel> barrel = service.getBarrel(id);
-        if (barrel.isPresent()) {
-            return new ResponseEntity<>(barrel.get(), HttpStatus.OK);
+        Optional<Barrel> optionalBarrel = service.getBarrel(id);
+        if (optionalBarrel.isPresent()) {
+            return new ResponseEntity<>(optionalBarrel.get(), HttpStatus.OK);
         }
         else {
             throw new ResourceNotFoundException(String.format("Бочка с id=%d не найдена" , id));
