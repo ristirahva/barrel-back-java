@@ -1,27 +1,16 @@
-package org.km.db.entity;
+package org.km.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-/**
- * Производитель бочек
- */
-@Entity
-@Table
-public class Cooper {
-    @Id
+public class CooperDTO {
     private int id;
     private String name;
     private String url;
+    private long barrelCount;
 
-    public Cooper(int id, String name, String url) {
+    public CooperDTO(int id, String name, String url, long barrelCount) {
         this.id = id;
         this.name = name;
         this.url = url;
-    }
-
-    private Cooper() {
+        this.barrelCount = barrelCount;
     }
 
     public int getId() {
@@ -34,5 +23,9 @@ public class Cooper {
 
     public String getUrl() {
         return url;
+    }
+
+    public long getBarrelCount() {
+        return barrelCount;
     }
 }

@@ -2,6 +2,7 @@ package org.km.service;
 
 import org.km.db.entity.Barrel;
 import org.km.db.repository.BarrelRepository;
+import org.km.dto.BarrelDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,12 @@ public class BarrelService {
         this.repository = repository;
     }
 
-    public List<Barrel> getBarrels() {
-        return repository.findAll();
+    public List<BarrelDTO> getBarrels() {
+        return repository.findAllWithParents();
+    }
+
+    public List<Barrel> getBarrelsByWoodId(int woodId) {
+        return repository.findByWoodId(woodId);
     }
 
     public Optional<Barrel> getBarrel(int barrelId) {

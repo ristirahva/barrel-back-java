@@ -35,6 +35,14 @@ public class Barrel {
         return description;
     }
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "cooper_id")
+    private Cooper cooper;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "wood_id")
+    private Wood wood;
+
     @OneToMany(mappedBy = "barrel",
             cascade = CascadeType.ALL,
             orphanRemoval = true)

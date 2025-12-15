@@ -11,8 +11,11 @@ import java.time.LocalDate;
 @Entity
 @Table(name="drink_in_barrel")
 public class DrinkInBarrel {
+
+    @EmbeddedId
+    private DrinkInBarrelId id;
     @ManyToOne
-    @MapsId("studentId")
+    @MapsId("drinkId")
     @JoinColumn(name = "drink_id")
     private Drink drink;
 
@@ -22,8 +25,10 @@ public class DrinkInBarrel {
     private Barrel barrel;
 
     private LocalDate dateStart;
-
     private LocalDate dateEnd;
+    private int alcoholStart;
+    private int alcoholEnd;
+    private String description;
 
     public DrinkInBarrel(Drink drink, Barrel barrel, LocalDate dateStart, LocalDate dateEnd, int alcoholStart, int alcoholEnd, String description) {
         this.drink = drink;
@@ -33,6 +38,9 @@ public class DrinkInBarrel {
         this.alcoholStart = alcoholStart;
         this.alcoholEnd = alcoholEnd;
         this.description = description;
+    }
+
+    private DrinkInBarrel() {
     }
 
     public Drink getDrinkId() {
@@ -63,7 +71,4 @@ public class DrinkInBarrel {
         return description;
     }
 
-    private int alcoholStart;
-    private int alcoholEnd;
-    private String description;
 }

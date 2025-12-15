@@ -11,19 +11,19 @@ import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
 import java.util.Optional;
 
+import static org.km.controller.ControllerConstants.WOOD_URL;
+
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 //@RequestMapping("/api/v1/woods")
 public class WoodController {
-
-    private static final String GET_WOODS = "/api/v1/woods";
 
     @Autowired
     private WoodService woodService;
 
     @Operation(summary = "Получение списка древесины", description="Получение списка материалов для бочек(они могут быть и смешанными)")
     @RequestMapping(method = RequestMethod.GET,
-            value = GET_WOODS,
+            value = WOOD_URL,
             produces = "application/json")
     public ResponseEntity<List<Wood>> getWoods() {
         return new ResponseEntity<>(woodService.getWoods(), HttpStatus.OK);
@@ -31,7 +31,7 @@ public class WoodController {
 
     @Operation(summary = "Получение древесины", description="Получение материала для бочек(он может быть и смешанными)")
     @RequestMapping(method = RequestMethod.GET,
-            value = GET_WOODS + "/{id}",
+            value = WOOD_URL + "/{id}",
             produces = "application/json")
     public ResponseEntity<Wood> getWood(@PathVariable Integer id) {
         Optional<Wood> optionalWood = woodService.getWood(id);
