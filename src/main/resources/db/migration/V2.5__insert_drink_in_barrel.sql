@@ -5,13 +5,13 @@ INSERT INTO drink_in_barrel (barrel_id, drink_id, date_start, alcohol_start, dat
 INSERT INTO drink_in_barrel (barrel_id, drink_id, date_start, alcohol_start, date_end, alcohol_end) VALUES(2, 4, '2024-01-18', -1, '2024-08-18', 41);
 INSERT INTO drink_in_barrel (barrel_id, drink_id, date_start, alcohol_start, date_end, alcohol_end) VALUES(2, 5, '2024-08-18', 41, '2025-02-18', 41);
 INSERT INTO drink_in_barrel (barrel_id, drink_id, date_start, alcohol_start, date_end, alcohol_end) VALUES(2, 6, '2025-02-18', 41, '2025-08-18', 45);
-INSERT INTO drink_in_barrel (barrel_id, drink_id, date_start, alcohol_start, date_end, alcohol_end) VALUES(2, 7, '2022-05-18', 40, null, null);
+INSERT INTO drink_in_barrel (barrel_id, drink_id, date_start, alcohol_start, date_end, alcohol_end) VALUES(2, 7, '2025-08-18', 40, null, null);
 
 INSERT INTO drink_in_barrel (barrel_id, drink_id, date_start, alcohol_start, date_end, alcohol_end) VALUES(3, 8, '2022-08-17', -1, '2023-02-17', -1);
 INSERT INTO drink_in_barrel (barrel_id, drink_id, date_start, alcohol_start, date_end, alcohol_end) VALUES(3, 9, '2023-02-17', 43, '2024-02-17', 45);
 INSERT INTO drink_in_barrel (barrel_id, drink_id, date_start, alcohol_start, date_end, alcohol_end) VALUES(3, 10, '2024-02-17', 40, '2025-02-17', 40);
 INSERT INTO drink_in_barrel (barrel_id, drink_id, date_start, alcohol_start, date_end, alcohol_end) VALUES(3, 11, '2025-02-17', 42, '2025-09-17', 41);
-INSERT INTO drink_in_barrel (barrel_id, drink_id, date_start, alcohol_start, date_end, alcohol_end) VALUES(3, 12, '2022-05-18', 43, null, null);
+INSERT INTO drink_in_barrel (barrel_id, drink_id, date_start, alcohol_start, date_end, alcohol_end) VALUES(3, 12, '2025-09-17', 43, null, null);
 
 INSERT INTO drink_in_barrel (barrel_id, drink_id, date_start, alcohol_start, date_end, alcohol_end) VALUES(4, 13, '2022-04-23', -1, '2023-01-19', 40);
 INSERT INTO drink_in_barrel (barrel_id, drink_id, date_start, alcohol_start, date_end, alcohol_end) VALUES(4, 14, '2023-01-19', -1, '2023-11-19', 45);

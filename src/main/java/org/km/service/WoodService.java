@@ -28,4 +28,12 @@ public class WoodService {
     public Optional<Wood> getWood(int id) {
         return repository.findById(id);
     }
+
+    public Wood addWood(Wood wood) {
+        return repository.save(wood);
+    }
+
+    public void deleteBWood(Integer id) {
+        repository.deleteById(id);
+    }
 }

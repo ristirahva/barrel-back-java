@@ -24,13 +24,22 @@ public class DrinkInBarrel {
     @JoinColumn(name = "barrel_id")
     private Barrel barrel;
 
+    @Column(name="date_start")
     private LocalDate dateStart;
+
+    @Column(name="date_end")
     private LocalDate dateEnd;
-    private int alcoholStart;
-    private int alcoholEnd;
+
+    @Column(name="alcohol_start")
+    private Integer alcoholStart;
+
+    @Column(name="alcohol_end")
+    private Integer alcoholEnd;
+
+    @Column
     private String description;
 
-    public DrinkInBarrel(Drink drink, Barrel barrel, LocalDate dateStart, LocalDate dateEnd, int alcoholStart, int alcoholEnd, String description) {
+    public DrinkInBarrel(Drink drink, Barrel barrel, LocalDate dateStart, LocalDate dateEnd, Integer alcoholStart, Integer alcoholEnd, String description) {
         this.drink = drink;
         this.barrel = barrel;
         this.dateStart = dateStart;
@@ -59,11 +68,11 @@ public class DrinkInBarrel {
         return dateEnd;
     }
 
-    public int getAlcoholStart() {
+    public Integer getAlcoholStart() {
         return alcoholStart;
     }
 
-    public int getAlcoholEnd() {
+    public Integer getAlcoholEnd() {
         return alcoholEnd;
     }
 
