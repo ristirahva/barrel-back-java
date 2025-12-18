@@ -1,18 +1,20 @@
-package org.km.db.entity;
+package org.km.db.view;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import java.util.Objects;
 
 @Entity
-@Table
-public class Wood {
+@Table(name="cooper_view")
+public class CooperView {
     @Id
     private int id;
     private String name;
-    private String nameLat;
+    private String url;
+    int barrelCount;
+
 
     public int getId() {
         return id;
@@ -22,29 +24,34 @@ public class Wood {
         return name;
     }
 
-    public String getNameLat() {
-        return nameLat;
+    public String getUrl() {
+        return url;
+    }
+
+    public int getBarrelCount() {
+        return barrelCount;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Wood wood = (Wood) o;
-        return id == wood.id && Objects.equals(name, wood.name) && Objects.equals(nameLat, wood.nameLat);
+        CooperView that = (CooperView) o;
+        return id == that.id && Objects.equals(name, that.name) && Objects.equals(url, that.url);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, nameLat);
+        return Objects.hash(id, name, url);
     }
 
     @Override
     public String toString() {
-        return "Wood{" +
+        return "CooperView{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", nameLat='" + nameLat + '\'' +
+                ", url='" + url + '\'' +
+                ", barrelCount=" + barrelCount +
                 '}';
     }
 }

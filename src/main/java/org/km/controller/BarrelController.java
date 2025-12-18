@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 
 import io.swagger.v3.oas.annotations.Parameter;
 import org.km.db.entity.Barrel;
-import org.km.dto.BarrelDTO;
+import org.km.db.view.BarrelView;
 import org.km.exception.ResourceNotFoundException;
 import org.km.service.BarrelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +26,13 @@ public class BarrelController {
 
     @Operation(summary = "Получение списка бочек", description="Получение списка бочек")
     @RequestMapping(method = RequestMethod.GET, value = BARREL_URL, produces = "application/json")
-    public ResponseEntity<List<BarrelDTO>> getBarrels() {
-        return new ResponseEntity<>(service.getBarrels(), HttpStatus.OK);
+    public ResponseEntity<List<BarrelView>> getBarrels() {
+        return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
 
     @Operation(summary = "Получение списка бочек из определённой древесины", description="Получение списка бочек из определённой древесины")
     @RequestMapping(method = RequestMethod.GET, value = BARREL_URL + "/by-wood/{woodId}", produces = "application/json")
-    public ResponseEntity<List<Barrel>> getBarrelsByWoodId( @Parameter(description = "ID категории") @PathVariable int woodId) {
+    public ResponseEntity<List<BarrelView>> getBarrelsByWoodId( @Parameter(description = "ID категории") @PathVariable int woodId) {
         return new ResponseEntity<>(service.getBarrelsByWoodId(woodId), HttpStatus.OK);
     }
 
@@ -40,8 +40,8 @@ public class BarrelController {
     @RequestMapping(method = RequestMethod.GET,
             value = BARREL_URL + "/{id}",
             produces = "application/json")
-    public ResponseEntity<Barrel> getBarrel(@PathVariable Integer id) {
-        Optional<Barrel> optionalBarrel = service.getBarrel(id);
+    public ResponseEntity<BarrelView> getBarrel(@PathVariable Integer id) {
+        Optional<BarrelView> optionalBarrel = service.getById(id);
         if (optionalBarrel.isPresent()) {
             return new ResponseEntity<>(optionalBarrel.get(), HttpStatus.OK);
         }
@@ -53,19 +53,19 @@ public class BarrelController {
     @Operation(summary = "Изменение бочки", description="Изменение данных бочки")
     @PutMapping(value = BARREL_URL + "/{id}", produces = "application/json")
     public ResponseEntity<Barrel> updateBarrel(@PathVariable Integer id, @RequestBody Barrel barrel) {
-        return ResponseEntity.ok(service.updateBarrel(id, barrel));
+        return ResponseEntity.ok(service.update(id, barrel));
     }
 
     @Operation(summary = "Создание бочки", description="Добавление новой бочки")
     @PostMapping(value = BARREL_URL, produces = "application/json")
     public ResponseEntity<Barrel> addBarrel(@RequestBody Barrel barrel) {
-        return ResponseEntity.ok(service.addBarrel(barrel));
+        return ResponseEntity.ok(service.add(barrel));
     }
 
     @Operation(summary = "Удаление бочки", description="Удаление бочки")
     @DeleteMapping(value = BARREL_URL + "/{id}", produces = "application/json")
     public ResponseEntity<Void> deleteBarrel(@PathVariable Integer id) {
-        service.deleteBarrel(id);
+        service.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }

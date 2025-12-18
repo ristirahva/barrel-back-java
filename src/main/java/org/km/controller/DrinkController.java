@@ -2,7 +2,7 @@ package org.km.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import org.km.db.entity.Drink;
-import org.km.exception.ResourceNotFoundException;
+import org.km.db.view.DrinkView;
 import org.km.service.CrudService;
 import org.km.service.DrinkService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,19 +11,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.km.controller.ControllerConstants.DRINK_URL;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping(DRINK_URL)
-public class DrinkController extends AbstractCrudController<Drink> {
+public class DrinkController extends AbstractCrudController<DrinkView, Drink> {
     @Autowired
     private DrinkService service;
 
     @Override
-    protected CrudService<Drink> getService() {
+    protected CrudService<DrinkView, Drink> getService() {
         return service;
     }
 
@@ -35,15 +34,15 @@ public class DrinkController extends AbstractCrudController<Drink> {
     @Operation(summary = "Получение списка напитков", description="Получение списка напитков")
     @RequestMapping(method = RequestMethod.GET,
             produces = "application/json")
-    public ResponseEntity<List<Drink>> getDrinks() {
-        //return new ResponseEntity<>(service.getDrinks(), HttpStatus.OK);
+    public ResponseEntity<List<DrinkView>> getDrinks() {
         return super.getAll();
     }
 
     @Operation(summary = "Получение напитка", description="Получение напитка по id")
     @RequestMapping(method = RequestMethod.GET,
+            path = "/{id}",
             produces = "application/json")
-    public ResponseEntity<Drink> getDrink(@PathVariable Integer id) {
+    public ResponseEntity<DrinkView> getDrink(@PathVariable Integer id) {
         return super.getById(id);
     }
 

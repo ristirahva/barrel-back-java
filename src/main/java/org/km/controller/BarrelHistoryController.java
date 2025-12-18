@@ -1,7 +1,7 @@
 package org.km.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import org.km.db.entity.BarrelHistoryView;
+import org.km.db.view.BarrelHistoryView;
 import org.km.service.BarrelHistoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;

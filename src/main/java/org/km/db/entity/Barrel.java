@@ -3,6 +3,7 @@ package org.km.db.entity;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -46,5 +47,29 @@ public class Barrel {
     @OneToMany(mappedBy = "barrel",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    private Set<BarrelHistory> courseAssociations = new HashSet<>();
+    private Set<BarrelHistory> barrelHistories = new HashSet<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Barrel barrel = (Barrel) o;
+        return id == barrel.id && volume == barrel.volume && Objects.equals(description, barrel.description) && Objects.equals(cooper, barrel.cooper) && Objects.equals(wood, barrel.wood);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, volume, description, cooper, wood);
+    }
+
+    @Override
+    public String toString() {
+        return "Barrel{" +
+                "id=" + id +
+                ", volume=" + volume +
+                ", description='" + description + '\'' +
+                ", cooper=" + cooper +
+                ", wood=" + wood +
+                '}';
+    }
 }

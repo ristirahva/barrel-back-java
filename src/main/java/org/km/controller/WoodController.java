@@ -1,6 +1,7 @@
 package org.km.controller;
 
 import org.km.db.entity.Wood;
+import org.km.db.view.WoodView;
 import org.km.service.WoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,6 @@ import static org.km.controller.ControllerConstants.WOOD_URL;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-//@RequestMapping("/api/v1/woods")
 public class WoodController {
 
     @Autowired
@@ -26,22 +26,22 @@ public class WoodController {
     @RequestMapping(method = RequestMethod.GET,
             value = WOOD_URL,
             produces = "application/json")
-    public ResponseEntity<List<Wood>> getWoods() {
-        return new ResponseEntity<>(service.getWoods(), HttpStatus.OK);
+    public ResponseEntity<List<WoodView>> getWoods() {
+        return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
 
     @Operation(summary = "Получение древесины", description="Получение материала для бочек(он может быть и смешанными)")
     @RequestMapping(method = RequestMethod.GET,
             value = WOOD_URL + "/{id}",
             produces = "application/json")
-    public ResponseEntity<Wood> getWood(@PathVariable Integer id) {
-        Optional<Wood> optionalWood = service.getWood(id);
+    public ResponseEntity<WoodView> getWood(@PathVariable Integer id) {
+        Optional<WoodView> optionalWood = service.getById(id);
         return optionalWood.map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
     }
 
     @Operation(summary = "Создание древесины", description="Добавление новой древесины")
     @PostMapping(value = WOOD_URL, produces = "application/json")
     public ResponseEntity<Wood> addWood(@RequestBody Wood wood) {
-        return ResponseEntity.ok(service.addWood(wood));
+        return ResponseEntity.ok(service.add(wood));
     }
 }

@@ -1,6 +1,5 @@
-package org.km.db.entity;
+package org.km.db.view;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EmbeddedId;
@@ -10,7 +9,6 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-//@JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity(name="barrel_history")
 public class BarrelHistoryView {
     // Внутренний класс для композиции ключа
@@ -32,8 +30,6 @@ public class BarrelHistoryView {
         // Безаргументный конструктор нужен для ORM
         protected Key() {
         }
-
-        // геттеры и сеттеры...
 
         @Override
         public boolean equals(Object obj) {
@@ -133,4 +129,32 @@ public class BarrelHistoryView {
         return description;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BarrelHistoryView that = (BarrelHistoryView) o;
+        return barrelVolume == that.barrelVolume && woodId == that.woodId && Objects.equals(key, that.key) && Objects.equals(drinkName, that.drinkName) && Objects.equals(woodName, that.woodName) && Objects.equals(dateStart, that.dateStart) && Objects.equals(dateEnd, that.dateEnd) && Objects.equals(alcoholStart, that.alcoholStart) && Objects.equals(alcoholEnd, that.alcoholEnd) && Objects.equals(description, that.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(key, barrelVolume, drinkName, woodId, woodName, dateStart, dateEnd, alcoholStart, alcoholEnd, description);
+    }
+
+    @Override
+    public String toString() {
+        return "BarrelHistoryView{" +
+                "key=" + key +
+                ", barrelVolume=" + barrelVolume +
+                ", drinkName='" + drinkName + '\'' +
+                ", woodId=" + woodId +
+                ", woodName='" + woodName + '\'' +
+                ", dateStart=" + dateStart +
+                ", dateEnd=" + dateEnd +
+                ", alcoholStart=" + alcoholStart +
+                ", alcoholEnd=" + alcoholEnd +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

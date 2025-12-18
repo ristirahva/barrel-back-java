@@ -2,13 +2,13 @@ package org.km.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 
+import org.km.db.view.CooperView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import org.km.db.entity.Cooper;
-import org.km.dto.CooperDTO;
 import org.km.service.CooperService;
 import org.km.service.CrudService;
 
@@ -19,13 +19,13 @@ import static org.km.controller.ControllerConstants.COOPER_URL;
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping(COOPER_URL)
-public class CooperController extends AbstractCrudController <Cooper>{
+public class CooperController extends AbstractCrudController <CooperView, Cooper>{
 
     @Autowired
     private CooperService service;
 
     @Override
-    protected CrudService<Cooper> getService() {
+    protected CrudService<CooperView, Cooper> getService() {
         return service;
     }
     @Override
@@ -36,12 +36,12 @@ public class CooperController extends AbstractCrudController <Cooper>{
     @Operation(summary = "Получение списка производителей", description="Получение списка производителей")
     @RequestMapping(method = RequestMethod.GET,
             produces = "application/json")
-    public ResponseEntity<List<CooperDTO>> getCoopers() {
-        return new ResponseEntity<>(service.getCoopers(), HttpStatus.OK);
+    public ResponseEntity<List<CooperView>> getCoopers() {
+        return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
 
     @Operation(summary = "Получение производителя", description="Получение производителя по id")
-    public ResponseEntity<Cooper> getCooper(@PathVariable Integer id) {
+    public ResponseEntity<CooperView> getCooper(@PathVariable Integer id) {
         return super.getById(id);
     }
 

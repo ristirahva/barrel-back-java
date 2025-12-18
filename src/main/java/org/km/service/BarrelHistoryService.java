@@ -1,6 +1,6 @@
 package org.km.service;
 
-import org.km.db.entity.BarrelHistoryView;
+import org.km.db.view.BarrelHistoryView;
 import org.km.db.repository.BarrelHistoryRepository;
 
 import org.slf4j.Logger;

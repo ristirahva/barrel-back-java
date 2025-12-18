@@ -3,6 +3,7 @@ package org.km.db.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * История напитков в бочке
@@ -13,7 +14,7 @@ import java.time.LocalDate;
 public class BarrelHistory {
 
     @EmbeddedId
-    private DrinkInBarrelId id;
+    private BarrelHistoryId id;
     @ManyToOne
     @MapsId("drinkId")
     @JoinColumn(name = "drink_id")
@@ -80,4 +81,30 @@ public class BarrelHistory {
         return description;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BarrelHistory that = (BarrelHistory) o;
+        return Objects.equals(id, that.id) && Objects.equals(drink, that.drink) && Objects.equals(barrel, that.barrel) && Objects.equals(dateStart, that.dateStart) && Objects.equals(dateEnd, that.dateEnd) && Objects.equals(alcoholStart, that.alcoholStart) && Objects.equals(alcoholEnd, that.alcoholEnd) && Objects.equals(description, that.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, drink, barrel, dateStart, dateEnd, alcoholStart, alcoholEnd, description);
+    }
+
+    @Override
+    public String toString() {
+        return "BarrelHistory{" +
+                "id=" + id +
+                ", drink=" + drink +
+                ", barrel=" + barrel +
+                ", dateStart=" + dateStart +
+                ", dateEnd=" + dateEnd +
+                ", alcoholStart=" + alcoholStart +
+                ", alcoholEnd=" + alcoholEnd +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }
