@@ -5,12 +5,12 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 /**
- * Пребывание напитка в бочке
+ * История напитков в бочке
  */
 
 @Entity
-@Table(name="drink_in_barrel")
-public class DrinkInBarrel {
+@Table(name="barrel_history")
+public class BarrelHistory {
 
     @EmbeddedId
     private DrinkInBarrelId id;
@@ -39,7 +39,7 @@ public class DrinkInBarrel {
     @Column
     private String description;
 
-    public DrinkInBarrel(Drink drink, Barrel barrel, LocalDate dateStart, LocalDate dateEnd, Integer alcoholStart, Integer alcoholEnd, String description) {
+    public BarrelHistory(Drink drink, Barrel barrel, LocalDate dateStart, LocalDate dateEnd, Integer alcoholStart, Integer alcoholEnd, String description) {
         this.drink = drink;
         this.barrel = barrel;
         this.dateStart = dateStart;
@@ -49,7 +49,7 @@ public class DrinkInBarrel {
         this.description = description;
     }
 
-    private DrinkInBarrel() {
+    private BarrelHistory() {
     }
 
     public Drink getDrinkId() {

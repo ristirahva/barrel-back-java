@@ -1,9 +1,9 @@
 package org.km.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import org.km.db.entity.Cooper;
 import org.km.db.entity.Drink;
 import org.km.exception.ResourceNotFoundException;
+import org.km.service.CrudService;
 import org.km.service.DrinkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,29 +17,39 @@ import static org.km.controller.ControllerConstants.DRINK_URL;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-public class DrinkController {
+@RequestMapping(DRINK_URL)
+public class DrinkController extends AbstractCrudController<Drink> {
     @Autowired
     private DrinkService service;
 
+    @Override
+    protected CrudService<Drink> getService() {
+        return service;
+    }
+
+    @Override
+    protected String getEntityName() {
+        return "Дистиллят";
+    }
+
     @Operation(summary = "Получение списка напитков", description="Получение списка напитков")
     @RequestMapping(method = RequestMethod.GET,
-            value = DRINK_URL,
             produces = "application/json")
     public ResponseEntity<List<Drink>> getDrinks() {
-        return new ResponseEntity<>(service.getDrinks(), HttpStatus.OK);
+        //return new ResponseEntity<>(service.getDrinks(), HttpStatus.OK);
+        return super.getAll();
     }
 
     @Operation(summary = "Получение напитка", description="Получение напитка по id")
     @RequestMapping(method = RequestMethod.GET,
-            value = DRINK_URL + "/{id}",
             produces = "application/json")
     public ResponseEntity<Drink> getDrink(@PathVariable Integer id) {
-        Optional<Drink> drink = service.getDrink(id);
-        if (drink.isPresent()) {
-            return new ResponseEntity<>(drink.get(), HttpStatus.OK);
-        }
-        else {
-            throw new ResourceNotFoundException(String.format("Бочка с id=%d не найдена" , id));
-        }
+        return super.getById(id);
+    }
+
+    @Operation(summary = "Удаление дистиллята", description="Удаление существующего дистиллята")
+    @Override
+    public ResponseEntity<Void> delete(@PathVariable int id) {
+        return super.delete(id);
     }
 }

@@ -46,5 +46,5 @@ public class Barrel {
     @OneToMany(mappedBy = "barrel",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    private Set<DrinkInBarrel> courseAssociations = new HashSet<>();
+    private Set<BarrelHistory> courseAssociations = new HashSet<>();
 }

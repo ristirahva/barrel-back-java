@@ -53,5 +53,5 @@ public class Drink {
     @OneToMany(mappedBy = "drink",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    private Set<DrinkInBarrel> courseAssociations = new HashSet<>();
+    private Set<BarrelHistory> courseAssociations = new HashSet<>();
 }

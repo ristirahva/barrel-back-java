@@ -1,4 +1,4 @@
-create table public.drink_in_barrel (
+create table public.barrel_history (
  	barrel_id INT NOT NULL,
  	drink_id INT NOT NULL,
  	date_start TIMESTAMP,

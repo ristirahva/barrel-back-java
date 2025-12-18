@@ -14,12 +14,12 @@ public abstract class AbstractCrudService<T, R extends JpaRepository<T, Integer>
         this.repository = repository;
     }
     @Override
-    public List findAll() {
+    public List getAll() {
         return repository.findAll();
     }
 
     @Override
-    public Optional findById(int id) {
+    public Optional getById(int id) {
         return repository.findById(id);
     }
 

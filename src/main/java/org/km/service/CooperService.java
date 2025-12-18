@@ -44,9 +44,9 @@ public class CooperService extends AbstractCrudService <Cooper, CooperRepository
      * @param cooperId
      * @return
      */
-    public Optional<Cooper> getCooper(int cooperId) {
-        return repository.findById(cooperId);
-    }
+//    public Optional<Cooper> getCooper(int cooperId) {
+//        return super.getById(cooperId);
+//    }
 
     /**
      * Добавление производителя

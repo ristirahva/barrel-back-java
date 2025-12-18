@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 import static org.km.controller.ControllerConstants.BARREL_HISTORY_URL;
-import static org.km.controller.ControllerConstants.BARREL_URL;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController

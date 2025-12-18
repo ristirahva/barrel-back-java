@@ -1,8 +1,9 @@
 package org.km.service;
 
-import org.km.db.entity.Barrel;
 import org.km.db.entity.Drink;
+import org.km.db.repository.CooperRepository;
 import org.km.db.repository.DrinkRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,18 +13,22 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class DrinkService {
-    private final DrinkRepository repository;
+public class DrinkService  extends AbstractCrudService <Drink, DrinkRepository> {
 
     private static final Logger log = LoggerFactory.getLogger(DrinkService.class);
 
     @Autowired
     public DrinkService(DrinkRepository repository) {
-        this.repository = repository;
+        super(repository);
+    }
+
+    @Override
+    protected String getEntityName() {
+        return "Производитель бочек";
     }
 
     public List<Drink> getDrinks() {
-        return repository.findAll();
+        return this.getAll();
     }
 
     public Optional<Drink> getDrink(int drinkId) {
