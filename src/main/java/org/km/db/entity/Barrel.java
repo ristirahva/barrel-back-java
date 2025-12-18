@@ -16,10 +16,13 @@ public class Barrel {
 
     private String description;
 
-    public Barrel(int id, int volume, String description) {
+    private boolean isArchived;
+
+    public Barrel(int id, int volume, String description, boolean isArchived) {
         this.id = id;
         this.volume = volume;
         this.description = description;
+        this.isArchived = isArchived;
     }
 
     private Barrel() {}

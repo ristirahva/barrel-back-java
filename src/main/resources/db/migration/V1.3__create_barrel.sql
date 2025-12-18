@@ -3,5 +3,6 @@ create table public.barrel (
  	wood_id INT NOT NULL REFERENCES wood(id),
     cooper_id INT NOT NULL REFERENCES cooper(id),
 	volume int NOT NULL,
-	description varchar(255) NULL
+	description varchar(255) NULL,
+	is_archived boolean NOT NULL DEFAULT false
 );

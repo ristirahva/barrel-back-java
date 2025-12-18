@@ -1,7 +1,8 @@
 package org.km.service;
 
+import org.km.db.entity.BarrelHistory;
+import org.km.db.repository.*;
 import org.km.db.view.BarrelHistoryView;
-import org.km.db.repository.BarrelHistoryRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,17 +12,21 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class BarrelHistoryService {
-    private final BarrelHistoryRepository repository;
+public class BarrelHistoryService  extends AbstractCrudService <BarrelHistoryView, BarrelHistoryReadRepository, BarrelHistory, BarrelHistoryWriteRepository> {
 
     private static final Logger log = LoggerFactory.getLogger(BarrelHistoryService.class);
 
     @Autowired
-    public BarrelHistoryService(BarrelHistoryRepository repository) {
-        this.repository = repository;
+    public BarrelHistoryService(BarrelHistoryReadRepository readRepository, BarrelHistoryWriteRepository writeRepository) {
+        super(readRepository, writeRepository);
     }
 
     public List<BarrelHistoryView> getBarrelHistory() {
-        return repository.findAll();
+        return getAll();
+    }
+
+    @Override
+    protected String getEntityName() {
+        return "История бочек";
     }
 }

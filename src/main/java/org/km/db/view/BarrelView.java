@@ -35,9 +35,12 @@ public class BarrelView {
     private Integer fillCount;
 
     @Column(name="fill_duration")
-    private Integer fillDuration;
+    private String fillDuration;
 
-    public BarrelView(int id, int volume, String description, Integer cooperId, String cooperName, Integer woodId, String woodName, Integer fillCount, Integer fillDuration) {
+    @Column(name="is_archived")
+    private boolean isArchived;
+
+    public BarrelView(int id, int volume, String description, Integer cooperId, String cooperName, Integer woodId, String woodName, Integer fillCount, String fillDuration, boolean isArchived) {
         this.id = id;
         this.volume = volume;
         this.description = description;
@@ -84,8 +87,12 @@ public class BarrelView {
         return fillCount;
     }
 
-    public Integer getFillDuration() {
+    public String getFillDuration() {
         return fillDuration;
+    }
+
+    public boolean isArchived() {
+        return isArchived;
     }
 
     @Override
@@ -113,6 +120,7 @@ public class BarrelView {
                 ", woodName='" + woodName + '\'' +
                 ", fillCount=" + fillCount +
                 ", fillDuration=" + fillDuration +
+                ", isArchived=" + isArchived +
                 '}';
     }
 }

@@ -1,16 +1,17 @@
 package org.km.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import org.km.db.entity.Drink;
-import org.km.db.view.DrinkView;
-import org.km.service.CrudService;
-import org.km.service.DrinkService;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import org.km.db.entity.Drink;
+import org.km.db.view.DrinkView;
+import org.km.service.CrudService;
+import org.km.service.DrinkService;
 
 import static org.km.controller.ControllerConstants.DRINK_URL;
 
@@ -33,6 +34,7 @@ public class DrinkController extends AbstractCrudController<DrinkView, Drink> {
 
     @Operation(summary = "Получение списка напитков", description="Получение списка напитков")
     @RequestMapping(method = RequestMethod.GET,
+            path = "",
             produces = "application/json")
     public ResponseEntity<List<DrinkView>> getDrinks() {
         return super.getAll();
@@ -46,9 +48,17 @@ public class DrinkController extends AbstractCrudController<DrinkView, Drink> {
         return super.getById(id);
     }
 
-    @Operation(summary = "Удаление дистиллята", description="Удаление существующего дистиллята")
+    @Operation(summary = "Обновление напитка", description="Обновление дистиллята")
+    @PutMapping(value = "/{id}", produces = "application/json")
     @Override
-    public ResponseEntity<Void> delete(@PathVariable int id) {
+    public ResponseEntity<Drink> update(@PathVariable Integer id, @RequestBody Drink drink) {
+        return super.update(id, drink);
+    }
+
+    @Operation(summary = "Удаление дистиллята", description="Удаление существующего дистиллята")
+    @DeleteMapping(value = "/{id}", produces = "application/json")
+    @Override
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         return super.delete(id);
     }
 }

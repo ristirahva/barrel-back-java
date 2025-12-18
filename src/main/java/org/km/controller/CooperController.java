@@ -28,6 +28,7 @@ public class CooperController extends AbstractCrudController <CooperView, Cooper
     protected CrudService<CooperView, Cooper> getService() {
         return service;
     }
+
     @Override
     protected String getEntityName() {
         return "Производитель бочек";
@@ -35,31 +36,37 @@ public class CooperController extends AbstractCrudController <CooperView, Cooper
 
     @Operation(summary = "Получение списка производителей", description="Получение списка производителей")
     @RequestMapping(method = RequestMethod.GET,
+            value="",
             produces = "application/json")
     public ResponseEntity<List<CooperView>> getCoopers() {
         return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
 
     @Operation(summary = "Получение производителя", description="Получение производителя по id")
+    @RequestMapping(method = RequestMethod.GET,
+            value="/{id}",
+            produces = "application/json")
     public ResponseEntity<CooperView> getCooper(@PathVariable Integer id) {
         return super.getById(id);
     }
 
     @Operation(summary = "Создание производителя", description="Добавление нового производителя")
+    @PostMapping(value = "", produces = "application/json")
     @Override
     public ResponseEntity<Cooper> add(@RequestBody Cooper cooper) {
         return super.add(cooper);
     }
 
     @Operation(summary = "Обновление производителя", description="Обновление существующего производителя")
+    @PutMapping(value = "/{id}", produces = "application/json")
     @Override
-    public ResponseEntity<Cooper> update(@PathVariable int id, @RequestBody Cooper cooper) {
+    public ResponseEntity<Cooper> update(@PathVariable Integer id, @RequestBody Cooper cooper) {
         return super.update(id, cooper);
     }
 
     @Operation(summary = "Удаление производителя", description="Удаление существующего производителя")
     @Override
-    public ResponseEntity<Void> delete(@PathVariable int id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         return super.delete(id);
     }
 }

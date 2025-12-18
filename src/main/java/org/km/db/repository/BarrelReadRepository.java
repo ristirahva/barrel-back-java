@@ -7,8 +7,7 @@ import java.util.List;
 
 @Repository
 public interface BarrelReadRepository extends ReadRepository<BarrelView, Integer> {
-//    @Query("SELECT NEW org.km.dto.BarrelDTO(b.id, b.volume, b.description, c.id, c.name, w.id, w.name) FROM Barrel b, Cooper c, Wood w WHERE b.cooper.id = c.id AND b.wood.id = w.id")
-//    List<BarrelDTO> findAllWithParents();
-
     List<BarrelView> findByWoodId(int woodId);
+    List<BarrelView> findByCooperId(int cooperId);
+    List <BarrelView> findByIsArchived(boolean isArchived);
 }

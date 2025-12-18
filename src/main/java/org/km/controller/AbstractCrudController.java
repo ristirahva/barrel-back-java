@@ -42,7 +42,7 @@ public abstract class AbstractCrudController<T, U> {
 
     @Operation(summary = "Обновление записи")
     @PutMapping("/{id}")
-    public ResponseEntity<U> update(@PathVariable int id, @RequestBody U entity) {
+    public ResponseEntity<U> update(@PathVariable Integer id, @RequestBody U entity) {
         if (!getService().existsById(id)) {
             throw new ResourceNotFoundException(
                     String.format("%s с id=%s не найден", getEntityName(), id)
@@ -53,7 +53,7 @@ public abstract class AbstractCrudController<T, U> {
 
     @Operation(summary = "Удаление записи")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable int id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         if (!getService().existsById(id)) {
             throw new ResourceNotFoundException(
                     String.format("%s с id=%s не найден", getEntityName(), id)
