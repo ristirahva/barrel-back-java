@@ -67,6 +67,7 @@ public class CooperController extends AbstractCrudController <CooperView, Cooper
     @Operation(summary = "Удаление производителя", description="Удаление существующего производителя")
     @Override
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        return super.delete(id);
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

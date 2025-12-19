@@ -2,7 +2,7 @@ package org.km.service;
 
 import org.km.db.repository.ReadRepository;
 import org.km.db.repository.WriteRepository;
-import org.km.exception.ResourceNotFoundException;
+import org.km.exception.EntityNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +25,7 @@ public abstract class AbstractCrudService<T, R extends ReadRepository<T, Integer
     }
 
     @Override
-    public Optional<T> getById(int id) {
+    public Optional<T> getById(Integer id) {
         return readRepository.findById(id);
     }
 
@@ -35,9 +35,9 @@ public abstract class AbstractCrudService<T, R extends ReadRepository<T, Integer
     }
 
     @Override
-    public U update(int id, U entity) {
+    public U update(Integer id, U entity) {
         if (!readRepository.existsById(id)) {
-            throw new ResourceNotFoundException(
+            throw new EntityNotFoundException(
                     String.format("%s с id=%s не найден", getEntityName(), id)
             );
         }
@@ -46,13 +46,13 @@ public abstract class AbstractCrudService<T, R extends ReadRepository<T, Integer
     }
 
     @Override
-    public void deleteById(int id) {
+    public void delete(Integer id) {
         writeRepository.deleteById(id);
     }
 
     @Override
-    public boolean existsById(int id) {
-        return false;
+    public boolean exists(Integer id) {
+        return readRepository.existsById(id);
     }
 
     /**

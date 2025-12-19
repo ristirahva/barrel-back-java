@@ -10,11 +10,11 @@ import java.util.Objects;
 @Table
 public class Wood {
     @Id
-    private int id;
+    private Integer id;
     private String name;
     private String nameLat;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

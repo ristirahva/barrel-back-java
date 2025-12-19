@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.km.db.entity.Barrel;
 import org.km.db.view.BarrelView;
-import org.km.exception.ResourceNotFoundException;
+import org.km.exception.EntityNotFoundException;
 import org.km.service.BarrelService;
 import org.km.service.CrudService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +76,7 @@ public class BarrelController extends AbstractCrudController <BarrelView, Barrel
             return new ResponseEntity<>(optionalBarrel.get(), HttpStatus.OK);
         }
         else {
-            throw new ResourceNotFoundException(String.format("Бочка с id=%d не найдена" , id));
+            throw new EntityNotFoundException(String.format("Бочка с id=%d не найдена" , id));
         }
     }
 

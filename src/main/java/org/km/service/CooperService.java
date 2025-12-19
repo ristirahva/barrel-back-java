@@ -6,13 +6,12 @@ import org.km.db.view.CooperView;
 import org.km.db.repository.CooperReadRepository;
 import org.km.db.repository.CooperWriteRepository;
 
-import org.km.dto.CooperDTO;
+import org.km.exception.DeleteParentEntityException;
+import org.km.exception.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class CooperService extends AbstractCrudService <CooperView, CooperReadRepository, Cooper, CooperWriteRepository>{
@@ -27,5 +26,17 @@ public class CooperService extends AbstractCrudService <CooperView, CooperReadRe
     @Override
     protected String getEntityName() {
         return "Производитель бочек";
+    }
+
+    @Override
+    public void delete(Integer id) {
+        var cooperView = readRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(
+                String.format("Запись в сущности %s с id=%s не найдена", getEntityName(), id)
+        ));
+        if (cooperView.getBarrelCount() > 0) {
+            throw new DeleteParentEntityException("Невозможно удалить производителя, у которого есть бочки");
+        } else {
+            writeRepository.deleteById(id);
+        }
     }
 }

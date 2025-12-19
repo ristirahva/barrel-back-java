@@ -5,9 +5,9 @@ import java.util.Optional;
 
 public interface CrudService <T, U>{
     List<T> getAll();
-    Optional<T> getById(int id);
+    Optional<T> getById(Integer id);
     U add(U entity);
-    U update(int id, U entity);
-    void deleteById(int id);
-    boolean existsById(int id);
+    U update(Integer id, U entity);
+    void delete(Integer id);
+    boolean exists(Integer id);
 }

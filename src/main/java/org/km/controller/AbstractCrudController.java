@@ -1,7 +1,7 @@
 package org.km.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import org.km.exception.ResourceNotFoundException;
+import org.km.exception.EntityNotFoundException;
 import org.km.service.CrudService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +28,7 @@ public abstract class AbstractCrudController<T, U> {
     public ResponseEntity<T> getById(@PathVariable int id) {
         return getService().getById(id)
                 .map(ResponseEntity::ok)
-                .orElseThrow(() -> new ResourceNotFoundException(
+                .orElseThrow(() -> new EntityNotFoundException(
                         String.format("%s с id=%s не найден", getEntityName(), id)
                 ));
     }
@@ -43,8 +43,8 @@ public abstract class AbstractCrudController<T, U> {
     @Operation(summary = "Обновление записи")
     @PutMapping("/{id}")
     public ResponseEntity<U> update(@PathVariable Integer id, @RequestBody U entity) {
-        if (!getService().existsById(id)) {
-            throw new ResourceNotFoundException(
+        if (!getService().exists(id)) {
+            throw new EntityNotFoundException(
                     String.format("%s с id=%s не найден", getEntityName(), id)
             );
         }
@@ -54,12 +54,12 @@ public abstract class AbstractCrudController<T, U> {
     @Operation(summary = "Удаление записи")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        if (!getService().existsById(id)) {
-            throw new ResourceNotFoundException(
-                    String.format("%s с id=%s не найден", getEntityName(), id)
+        if (!getService().exists(id)) {
+            throw new EntityNotFoundException(
+                    String.format("Запись в сущности %s с id=%s не найдена", getEntityName(), id)
             );
         }
-        getService().deleteById(id);
+        getService().delete(id);
         return ResponseEntity.noContent().build();
     }
 

@@ -13,11 +13,11 @@ import java.util.Objects;
 @Table
 public class Cooper {
     @Id
-    private int id;
+    private Integer id;
     private String name;
     private String url;
 
-    public Cooper(int id, String name, String url) {
+    public Cooper(Integer id, String name, String url) {
         this.id = id;
         this.name = name;
         this.url = url;
@@ -26,7 +26,7 @@ public class Cooper {
     private Cooper() {
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

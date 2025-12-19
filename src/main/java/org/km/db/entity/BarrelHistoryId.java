@@ -7,23 +7,23 @@ import java.util.Objects;
 
 @Embeddable
 public class BarrelHistoryId implements Serializable {
-    private int drinkId;
-    private int barrelId;
+    private Integer drinkId;
+    private Integer barrelId;
 
     private BarrelHistoryId() {
     }
 
-    public BarrelHistoryId(int drinkId, int barrelId) {
+    public BarrelHistoryId(Integer drinkId, Integer barrelId) {
         this.drinkId = drinkId;
         this.barrelId = barrelId;
     }
 
 
-    public int getDrinkId() {
+    public Integer getDrinkId() {
         return drinkId;
     }
 
-    public int getBarrelId() {
+    public Integer getBarrelId() {
         return barrelId;
     }
 

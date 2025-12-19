@@ -13,13 +13,13 @@ import java.util.Set;
 @Table
 public class Drink {
     @Id
-    private int id;
+    private Integer id;
     private String source;
     private String name;
     private int alcohol;
     private String description;
 
-    public Drink(int id, String source, String name, int alcohol, String description) {
+    public Drink(Integer id, String source, String name, int alcohol, String description) {
         this.id = id;
         this.source = source;
         this.name = name;
@@ -30,7 +30,7 @@ public class Drink {
     private Drink() {
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

@@ -1,8 +1,6 @@
 package org.km.controller;
 
-import org.km.db.entity.Drink;
 import org.km.db.entity.Wood;
-import org.km.db.view.DrinkView;
 import org.km.db.view.WoodView;
 import org.km.service.CrudService;
 import org.km.service.WoodService;
@@ -15,11 +13,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
 import java.util.Optional;
 
-import static org.km.controller.ControllerConstants.BARREL_URL;
 import static org.km.controller.ControllerConstants.WOOD_URL;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
+@RequestMapping(WOOD_URL)
 public class WoodController extends AbstractCrudController<WoodView, Wood> {
 
     @Autowired
@@ -37,7 +35,7 @@ public class WoodController extends AbstractCrudController<WoodView, Wood> {
 
     @Operation(summary = "Получение списка древесины", description="Получение списка материалов для бочек(они могут быть и смешанными)")
     @RequestMapping(method = RequestMethod.GET,
-            value = WOOD_URL,
+            value = "",
             produces = "application/json")
     public ResponseEntity<List<WoodView>> getWoods() {
         return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
@@ -45,7 +43,7 @@ public class WoodController extends AbstractCrudController<WoodView, Wood> {
 
     @Operation(summary = "Получение древесины", description="Получение материала для бочек(он может быть и смешанными)")
     @RequestMapping(method = RequestMethod.GET,
-            value = WOOD_URL + "/{id}",
+            value = "/{id}",
             produces = "application/json")
     public ResponseEntity<WoodView> getWood(@PathVariable Integer id) {
         Optional<WoodView> optionalWood = service.getById(id);
@@ -53,7 +51,7 @@ public class WoodController extends AbstractCrudController<WoodView, Wood> {
     }
 
     @Operation(summary = "Создание древесины", description="Добавление новой древесины")
-    @PostMapping(value = WOOD_URL, produces = "application/json")
+    @PostMapping(value = "", produces = "application/json")
     public ResponseEntity<Wood> addWood(@RequestBody Wood wood) {
         return ResponseEntity.ok(service.add(wood));
     }

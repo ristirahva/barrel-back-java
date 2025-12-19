@@ -6,7 +6,8 @@ import org.km.db.repository.BarrelWriteRepository;
 
 import org.km.db.view.BarrelView;
 
-import org.km.exception.ResourceNotFoundException;
+import org.km.exception.DeleteParentEntityException;
+import org.km.exception.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +43,20 @@ public class BarrelService extends AbstractCrudService <BarrelView, BarrelReadRe
     }
 
     public void archive(int id) {
-        BarrelView view = getById(id).orElseThrow(() -> new ResourceNotFoundException("бочка с id=" +id + " не найдена!"));
+        BarrelView view = getById(id).orElseThrow(() -> new EntityNotFoundException("бочка с id=" +id + " не найдена!"));
         Barrel barrel = new Barrel(view.getId(), view.getVolume(), view.getDescription(), true);
         writeRepository.save(barrel);
+    }
+
+    public void delete(Integer id) {
+        var barrelView = readRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(
+                String.format("Запись в сущности %s с id=%s не найдена", getEntityName(), id)
+        ));
+        if (barrelView.getFillCount() > 0) {
+            throw new DeleteParentEntityException("Невозможно удалить бочку, в которой выдерживался дистиллят");
+        } else {
+            writeRepository.deleteById(id);
+        }
     }
 
     @Override

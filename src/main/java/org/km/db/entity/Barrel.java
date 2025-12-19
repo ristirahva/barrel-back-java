@@ -10,15 +10,15 @@ import java.util.Set;
 @Table
 public class Barrel {
     @Id
-    private int id;
+    private Integer id;
 
-    private int volume;
+    private Integer volume;
 
     private String description;
 
     private boolean isArchived;
 
-    public Barrel(int id, int volume, String description, boolean isArchived) {
+    public Barrel(Integer id, Integer volume, String description, boolean isArchived) {
         this.id = id;
         this.volume = volume;
         this.description = description;
@@ -27,11 +27,11 @@ public class Barrel {
 
     private Barrel() {}
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public int getVolume() {
+    public Integer getVolume() {
         return volume;
     }
 
