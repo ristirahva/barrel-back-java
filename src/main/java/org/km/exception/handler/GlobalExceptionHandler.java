@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
 
     /**
      * Попытка удалить родительскую сущность
-     * 
+     *
      * @param ex
      * @return
      */

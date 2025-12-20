@@ -1,6 +1,6 @@
-create view wood_view as
+CREATE VIEW wood_view AS
 SELECT w.id, w.name, name_lat, count(b) barrel_count
 FROM wood w
-left join barrel b on b.wood_id = w.id
-group by w.id
-order by w.name;
+LEFT JOIN barrel b ON b.wood_id = w.id
+GROUP BY w.id
+ORDER BY w.name;

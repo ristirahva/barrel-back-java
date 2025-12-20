@@ -48,6 +48,7 @@ public class BarrelService extends AbstractCrudService <BarrelView, BarrelReadRe
         writeRepository.save(barrel);
     }
 
+    @Override
     public void delete(Integer id) {
         var barrelView = readRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(
                 String.format("Запись в сущности %s с id=%s не найдена", getEntityName(), id)
