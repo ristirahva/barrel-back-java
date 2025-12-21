@@ -10,13 +10,12 @@ import java.util.Objects;
 @Table(name="cooper_view")
 public class CooperView {
     @Id
-    private int id;
+    private Integer id;
     private String name;
     private String url;
-    int barrelCount;
+    Integer barrelCount;
 
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -28,7 +27,7 @@ public class CooperView {
         return url;
     }
 
-    public int getBarrelCount() {
+    public Integer getBarrelCount() {
         return barrelCount;
     }
 

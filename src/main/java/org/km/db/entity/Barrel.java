@@ -10,6 +10,12 @@ import java.util.Set;
 @Table
 public class Barrel {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_generator")
+    @SequenceGenerator(
+            name = "sequence_generator",
+            sequenceName = "barrel_id_seq", // Название автоматически создаваемой последовательности PostgreSQL
+            allocationSize = 1
+    )
     private Integer id;
 
     private Integer volume;

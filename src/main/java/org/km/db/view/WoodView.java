@@ -11,7 +11,7 @@ import java.util.Objects;
 @Table(name="wood_view")
 public class WoodView {
     @Id
-    private int id;
+    private Integer id;
 
     @Column(name="name")
     private String name;
@@ -25,7 +25,7 @@ public class WoodView {
     @Column(name="barrel_count")
     private Integer barrelCount;
 
-    public WoodView(int id, String name, String nameLat, Integer barrelCount) {
+    public WoodView(Integer id, String name, String nameLat, Integer barrelCount) {
         this.id = id;
         this.name = name;
         this.nameLat = nameLat;
@@ -35,7 +35,7 @@ public class WoodView {
     private WoodView() {
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

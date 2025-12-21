@@ -1,8 +1,6 @@
 package org.km.db.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
@@ -13,6 +11,12 @@ import java.util.Objects;
 @Table
 public class Cooper {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_generator")
+    @SequenceGenerator(
+            name = "sequence_generator",
+            sequenceName = "cooper_id_seq", // Название автоматически создаваемой последовательности PostgreSQL
+            allocationSize = 1
+    )
     private Integer id;
     private String name;
     private String url;
