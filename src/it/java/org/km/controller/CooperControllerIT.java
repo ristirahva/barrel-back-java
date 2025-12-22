@@ -2,6 +2,7 @@ package org.km.controller;
 
 import org.junit.jupiter.api.Test;
 
+import org.km.db.entity.Cooper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -9,12 +10,10 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 
-import org.km.db.entity.Cooper;
 import org.km.db.view.CooperView;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 
@@ -22,24 +21,20 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.km.controller.ControllerConstants.COOPER_URL;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties =
-        {"spring.profiles.active=test",
+        {"spring.profiles.active=integration",
         "scheduling.enabled: false"}
 )
+@TestPropertySource(properties = {"spring.flyway.enabled=true"})
 
-@ActiveProfiles("test")
-@Transactional
-@Rollback(true)
-@Sql(
-        scripts = {"/db.migration/V2.1__insert_cooper.sql"},
-        executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS
-)
+@ActiveProfiles("integration")
+
 public class CooperControllerIT {
     @Autowired
-    private TestRestTemplate restTemplate;
+    private TestRestTemplate testRestTemplate;
 
     @Test
     public void testGetCoopers() {
-        var response = restTemplate.getForEntity(COOPER_URL, CooperView[].class);
+        var response = testRestTemplate.getForEntity(COOPER_URL, CooperView[].class);
         CooperView coopers[] = response.getBody();
         var cooperList = Arrays.stream(coopers).sorted((c1, c2)->c1.getId().toString().compareTo(c2.getId().toString())).toList();
         assertAll(
@@ -52,7 +47,7 @@ public class CooperControllerIT {
 
     @Test
     public void testGetCooper() {
-        var response = restTemplate.getForEntity(COOPER_URL + "/2", CooperView.class);
+        var response = testRestTemplate.getForEntity(COOPER_URL + "/2", CooperView.class);
         CooperView cooperView = response.getBody();
         assertAll(
                 () -> assertEquals(HttpStatus.OK, response.getStatusCode()),
@@ -64,7 +59,7 @@ public class CooperControllerIT {
 
     @Test
     public void testGetCooper_negative() {
-        var response = restTemplate.getForEntity(COOPER_URL + "/23", CooperView.class);
+        var response = testRestTemplate.getForEntity(COOPER_URL + "/23", CooperView.class);
         CooperView cooperView = response.getBody();
         assertAll(
                 () -> assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode())
@@ -73,27 +68,39 @@ public class CooperControllerIT {
 
     @Test
     @Sql(
-            statements = {"DELETE FROM cooper WHERE name = 'Большой бочонок'"},
+            statements = {"SELECT setval('cooper_id_seq', 100)"},
+            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
+    )
+    @Sql(
+            statements = {
+                    "DELETE FROM cooper WHERE name = 'Большой бочонок'"
+            },
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD
     )
     public void testAdd() {
         String name = "Большой бочонок";
-        var cooper = new Cooper(3, name, "http://foo.bar");
-        var response = restTemplate.postForEntity(COOPER_URL, cooper, Cooper.class);
+        var cooper = new Cooper(null, name, "http://foo.bar");
+        var response = testRestTemplate.postForEntity(COOPER_URL, cooper, Cooper.class);
         var result = response.getBody();
         assertAll(
                 () -> assertEquals(HttpStatus.CREATED, response.getStatusCode()),
                 () -> assertNotNull(result),
                 () -> assertNotNull(result.getId()),
-                () -> assertEquals(1, result.getId()),
+                () -> assertEquals(101, result.getId()),
                 () -> assertEquals(name, result.getName())
         );
     }
 
     @Test
+    @Sql(
+            statements = {
+                    "UPDATE cooper SET name = 'Сысоев', url='https://rusbochki.ru/' WHERE name = 'Конюшня'"
+            },
+            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD
+    )
     public void testUpdate() {
         var cooper = new Cooper(1, "Конюшня", "http://foo.bar");
-        var response = restTemplate.exchange(COOPER_URL + "/1", HttpMethod.PUT, new HttpEntity<>(cooper), Cooper.class);
+        var response = testRestTemplate.exchange(COOPER_URL + "/1", HttpMethod.PUT, new HttpEntity<>(cooper), Cooper.class);
         var result = response.getBody();
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(result);
@@ -103,7 +110,7 @@ public class CooperControllerIT {
     @Test
     public void testUpdate_negative() {
         var cooper = new Cooper(111, "Конюшня 111", "http://foo.bar");
-        var response = restTemplate.exchange(COOPER_URL + "/111", HttpMethod.PUT, new HttpEntity<>(cooper), Cooper.class);
+        var response = testRestTemplate.exchange(COOPER_URL + "/111", HttpMethod.PUT, new HttpEntity<>(cooper), Cooper.class);
         var result = response.getBody();
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertNotNull(result);
@@ -112,16 +119,23 @@ public class CooperControllerIT {
 
     @Test
     @Sql(
-            statements = {"INSERT INTO cooper (id, name, URL) VALUES (1, 'Сысоев', 'https://rusbochki.ru/')"},
-            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD
+            statements = {"INSERT INTO cooper (id, name, URL) VALUES (11, 'КРокодилов', 'https://bourbon.ru/')"},
+            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
     )
     public void testDelete() {
-        var response = restTemplate.exchange(COOPER_URL + "/1", HttpMethod.DELETE, null, Void.class, 1);
+        var response = testRestTemplate.exchange(COOPER_URL + "/11", HttpMethod.DELETE, null, Void.class, 1);
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
     }
 
-    public void testDelete_negative() {
-        var response = restTemplate.exchange(COOPER_URL + "/111", HttpMethod.DELETE, null, Void.class, 111);
+    @Test
+    public void testDelete_negative_not_found() {
+        var response = testRestTemplate.exchange(COOPER_URL + "/111", HttpMethod.DELETE, null, Void.class, 111);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void testDelete_negative_conflict() {
+        var response = testRestTemplate.exchange(COOPER_URL + "/1", HttpMethod.DELETE, null, Void.class, 111);
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
     }
 }
