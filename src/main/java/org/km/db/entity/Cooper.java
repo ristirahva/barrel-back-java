@@ -1,7 +1,9 @@
 package org.km.db.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -18,8 +20,23 @@ public class Cooper {
             allocationSize = 1
     )
     private Integer id;
+
+    /**
+     * Наименование производителя.
+     */
     private String name;
+
+    /**
+     * Сайт производителя.
+     */
     private String url;
+
+    /**
+     * Дата и время создания.
+     */
+    @Column(name = "created_at", nullable = false, updatable = false)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
     public Cooper(Integer id, String name, String url) {
         this.id = id;
@@ -40,6 +57,10 @@ public class Cooper {
 
     public String getUrl() {
         return url;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     @Override

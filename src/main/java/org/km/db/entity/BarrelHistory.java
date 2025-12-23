@@ -1,8 +1,10 @@
 package org.km.db.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -15,30 +17,59 @@ public class BarrelHistory {
 
     @EmbeddedId
     private BarrelHistoryId id;
+
+    /**
+     * Выдерживаемый напиток.
+     */
     @ManyToOne
     @MapsId("drinkId")
     @JoinColumn(name = "drink_id")
     private Drink drink;
 
+    /**
+     * Бочка, в которой выдерживается напиток.
+     */
     @ManyToOne
     @MapsId("barrelId")
     @JoinColumn(name = "barrel_id")
     private Barrel barrel;
 
+    /**
+     * Дата начала выдержки.
+     */
     @Column(name="date_start")
     private LocalDate dateStart;
 
+    /**
+     * Дата окончания выдержки.
+     */
     @Column(name="date_end")
     private LocalDate dateEnd;
 
+    /**
+     * Начальная выдержка.
+     */
     @Column(name="alcohol_start")
     private Integer alcoholStart;
 
+    /**
+     * Итоговая выдержка.
+     */
     @Column(name="alcohol_end")
     private Integer alcoholEnd;
 
+    /**
+     * Примечание.
+     */
     @Column
     private String description;
+
+    /**
+     * Дата и время создания.
+     */
+    @Column(name = "created_at", nullable = false, updatable = false)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
     public BarrelHistory(Drink drink, Barrel barrel, LocalDate dateStart, LocalDate dateEnd, Integer alcoholStart, Integer alcoholEnd, String description) {
         this.drink = drink;

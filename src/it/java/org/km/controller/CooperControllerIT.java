@@ -21,8 +21,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.km.controller.ControllerConstants.COOPER_URL;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties =
-        {"spring.profiles.active=integration",
-        "scheduling.enabled: false"}
+        {
+            "spring.profiles.active=integration",
+            "scheduling.enabled: false"
+        }
 )
 @TestPropertySource(properties = {"spring.flyway.enabled=true"})
 
@@ -58,9 +60,8 @@ public class CooperControllerIT {
     }
 
     @Test
-    public void testGetCooper_negative() {
+    public void testGetCooper_negative_not_found() {
         var response = testRestTemplate.getForEntity(COOPER_URL + "/23", CooperView.class);
-        CooperView cooperView = response.getBody();
         assertAll(
                 () -> assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode())
         );

@@ -6,7 +6,7 @@ WITH ranked_drinks AS (
         d.name,
         d.alcohol,
         d.description,
-        case bh.date_start when null then false else true end is_filled,
+        case when bh.date_start is null then false else true end is_filled,
         bh.date_end,
         ROW_NUMBER() OVER(PARTITION BY d.id ORDER BY bh.date_end DESC) AS rn
     FROM drink d
@@ -16,4 +16,4 @@ SELECT
     id, source, name, alcohol, description, is_filled, date_end
 FROM ranked_drinks
 WHERE rn = 1
-ORDER BY date_end DESC;
+ORDER BY date_end DESC, id;

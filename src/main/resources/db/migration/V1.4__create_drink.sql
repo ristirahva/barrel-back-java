@@ -3,5 +3,6 @@ create table public.drink (
         source varchar(64) NOT NULL,
         name varchar(32) NOT NULL, 
  	alcohol INT NOT NULL,
-	description varchar(255) NULL
+	description varchar(255) NULL,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
 );

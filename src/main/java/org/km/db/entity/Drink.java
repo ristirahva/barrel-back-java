@@ -1,7 +1,9 @@
 package org.km.db.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -20,10 +22,38 @@ public class Drink {
             allocationSize = 1
     )
     private Integer id;
+
+    /**
+     * Сырьё для напитка.
+     */
+    @Column(name = "source")
     private String source;
+
+    /**
+     * Наименование напитка.
+     */
+    @Column(name = "name")
     private String name;
+
+    /**
+     * Итоговая крепость.
+     */
+
+    @Column(name = "alcohol")
     private int alcohol;
+
+    /**
+     * Примечание.
+     */
+    @Column(name = "description")
     private String description;
+
+    /**
+     * Дата и время создания.
+     */
+    @Column(name = "created_at", nullable = false, updatable = false)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
     public Drink(Integer id, String source, String name, int alcohol, String description) {
         this.id = id;

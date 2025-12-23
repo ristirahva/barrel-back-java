@@ -1,5 +1,6 @@
 create table public.wood (
  	id SERIAL PRIMARY KEY,
 	name VARCHAR(64) UNIQUE NOT NULL,
-	name_lat VARCHAR(64) NULL
+	name_lat VARCHAR(64) NULL,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
 );

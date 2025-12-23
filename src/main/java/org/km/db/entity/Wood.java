@@ -1,7 +1,9 @@
 package org.km.db.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -15,8 +17,25 @@ public class Wood {
             allocationSize = 1
     )
     private Integer id;
+
+    /**
+     * Наименовение материала.
+     */
+    @Column(name="name")
     private String name;
+
+    /**
+     * Латинское наименование.
+     */
+    @Column(name="name_lat")
     private String nameLat;
+
+    /**
+     * Дата и время создания.
+     */
+    @Column(name = "created_at", nullable = false, updatable = false)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
     public Integer getId() {
         return id;

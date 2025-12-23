@@ -6,5 +6,6 @@ create table public.barrel_history (
  	alcohol_start INT,
  	alcohol_end INT,
 	description varchar(255) NULL,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	primary key(barrel_id, drink_id)
 );
