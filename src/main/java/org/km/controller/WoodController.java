@@ -53,7 +53,8 @@ public class WoodController extends AbstractCrudController<WoodView, Wood> {
     @Operation(summary = "Создание древесины", description="Добавление новой древесины")
     @PostMapping(value = "", produces = "application/json")
     public ResponseEntity<Wood> addWood(@RequestBody Wood wood) {
-        return ResponseEntity.ok(service.add(wood));
+        //return ResponseEntity.ok(service.add(wood));
+        return super.add(wood);
     }
 
     @Operation(summary = "Обновление древесины", description="Обновление существующей древесины")

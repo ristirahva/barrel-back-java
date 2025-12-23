@@ -2,6 +2,7 @@ package org.km.db.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -18,11 +19,28 @@ public class Barrel {
     )
     private Integer id;
 
+    /**
+     * Объём бочки.
+     */
+    @Column(name="volume")
     private Integer volume;
 
+    /**
+     * Примечание.
+     */
+    @Column(name="description")
     private String description;
 
+    /**
+     * Используется ли ещё бочка.
+     */
+    @Column(name="is_archived")
     private boolean isArchived;
+
+    /**
+     * Дата и время создания записи.
+     */
+    private LocalDateTime createdAt;
 
     public Barrel(Integer id, Integer volume, String description, boolean isArchived) {
         this.id = id;
@@ -79,6 +97,7 @@ public class Barrel {
                 ", description='" + description + '\'' +
                 ", cooper=" + cooper +
                 ", wood=" + wood +
+                ", createdAt='" + createdAt + '\'' +
                 '}';
     }
 }

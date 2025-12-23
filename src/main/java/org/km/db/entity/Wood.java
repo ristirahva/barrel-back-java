@@ -6,6 +6,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+/**
+ * Материал, из которого изготавливаются бочки.
+ */
 @Entity
 @Table
 public class Wood {
@@ -13,7 +16,7 @@ public class Wood {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_generator")
     @SequenceGenerator(
             name = "sequence_generator",
-            sequenceName = "cooper_id_seq", // Название автоматически создаваемой последовательности PostgreSQL
+            sequenceName = "wood_id_seq", // Название автоматически создаваемой последовательности PostgreSQL
             allocationSize = 1
     )
     private Integer id;
@@ -36,6 +39,15 @@ public class Wood {
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
+
+    public Wood(Integer id, String name, String nameLat) {
+        this.id = id;
+        this.name = name;
+        this.nameLat = nameLat;
+    }
+
+    private Wood() {
+    }
 
     public Integer getId() {
         return id;
@@ -68,6 +80,7 @@ public class Wood {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", nameLat='" + nameLat + '\'' +
+                ", createdAt='" + createdAt + '\'' +
                 '}';
     }
 }

@@ -112,6 +112,7 @@ public class Drink {
                 ", name='" + name + '\'' +
                 ", source='" + source + '\'' +
                 ", id=" + id +
+                ", createdAt='" + createdAt + '\'' +
                 '}';
     }
 }

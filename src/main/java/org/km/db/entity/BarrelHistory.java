@@ -136,6 +136,7 @@ public class BarrelHistory {
                 ", alcoholStart=" + alcoholStart +
                 ", alcoholEnd=" + alcoholEnd +
                 ", description='" + description + '\'' +
+                ", createdAt='" + createdAt + '\'' +
                 '}';
     }
 }
