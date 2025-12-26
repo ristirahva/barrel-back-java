@@ -37,12 +37,27 @@ public class Barrel {
     @Column(name="is_archived")
     private boolean isArchived;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "cooper_id")
+    private Cooper cooper;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "wood_id")
+    private Wood wood;
+
+    @OneToMany(mappedBy = "barrel",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private Set<BarrelHistory> barrelHistories = new HashSet<>();
+
     /**
      * Дата и время создания записи.
      */
     private LocalDateTime createdAt;
 
-    public Barrel(Integer id, Integer volume, String description, boolean isArchived) {
+    public Barrel(Cooper cooper, Wood wood, Integer id, Integer volume, String description, boolean isArchived) {
+        this.cooper = cooper;
+        this.wood = wood;
         this.id = id;
         this.volume = volume;
         this.description = description;
@@ -63,18 +78,13 @@ public class Barrel {
         return description;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "cooper_id")
-    private Cooper cooper;
+    public Cooper getCooper() {
+        return cooper;
+    }
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "wood_id")
-    private Wood wood;
-
-    @OneToMany(mappedBy = "barrel",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
-    private Set<BarrelHistory> barrelHistories = new HashSet<>();
+    public Wood getWood() {
+        return wood;
+    }
 
     @Override
     public boolean equals(Object o) {

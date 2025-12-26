@@ -1,17 +1,33 @@
 package org.km.db.view;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
+/**
+ * Бондарная компания - производитель бочек.
+ */
 @Entity
 @Table(name="cooper_view")
 public class CooperView {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_generator")
+    @SequenceGenerator(
+            name = "sequence_generator",
+            sequenceName = "cooper_id_seq", // Название автоматически создаваемой последовательности PostgreSQL
+            allocationSize = 1
+    )
     private Integer id;
+
+    /**
+     * Название компании.
+     */
+    @Column(name = "name")
     private String name;
+
+    /**
+     * Сайт компании.
+     */
     private String url;
     Integer barrelCount;
 

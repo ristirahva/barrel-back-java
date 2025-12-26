@@ -1,16 +1,22 @@
 package org.km.db.view;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
+/**
+ * Дистиллят.
+ */
 @Entity
 @Table(name="drink_view")
 public class DrinkView {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_generator")
+    @SequenceGenerator(
+            name = "sequence_generator",
+            sequenceName = "drink_id_seq", // Название автоматически создаваемой последовательности PostgreSQL
+            allocationSize = 1
+    )
     private Integer id;
 
     /**
@@ -57,6 +63,21 @@ public class DrinkView {
         this.description = description;
         this.filled = isFilled;
         this.dateEnd = dateEnd;
+    }
+
+    public DrinkView(Integer id, String source, String name, Integer alcohol, String description) {
+        this.id = id;
+        this.source = source;
+        this.name = name;
+        this.alcohol = alcohol;
+        this.description = description;
+    }
+
+    public DrinkView(String source, String name, Integer alcohol, String description) {
+        this.source = source;
+        this.name = name;
+        this.alcohol = alcohol;
+        this.description = description;
     }
 
     private DrinkView() {

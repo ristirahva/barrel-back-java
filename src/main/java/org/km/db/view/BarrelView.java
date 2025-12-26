@@ -1,20 +1,24 @@
 package org.km.db.view;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
+import java.time.Period;
 import java.util.Objects;
 
 @Entity
 @Table(name="barrel_view")
 public class BarrelView {
     @Id
-    private int id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_generator")
+    @SequenceGenerator(
+            name = "sequence_generator",
+            sequenceName = "barrel_id_seq", // Название автоматически создаваемой последовательности PostgreSQL
+            allocationSize = 1
+    )
+    private Integer id;
 
     @Column(name="volume")
-    private int volume;
+    private Integer volume;
 
     @Column(name="description")
     private String description;
@@ -38,9 +42,9 @@ public class BarrelView {
     private String fillDuration;
 
     @Column(name="is_archived")
-    private boolean isArchived;
+    private Boolean isArchived;
 
-    public BarrelView(int id, int volume, String description, Integer cooperId, String cooperName, Integer woodId, String woodName, Integer fillCount, String fillDuration, boolean isArchived) {
+    public BarrelView(Integer id, Integer volume, String description, Integer cooperId, String cooperName, Integer woodId, String woodName, Integer fillCount, String fillDuration, Boolean isArchived) {
         this.id = id;
         this.volume = volume;
         this.description = description;
@@ -52,14 +56,29 @@ public class BarrelView {
         this.fillDuration = fillDuration;
     }
 
+    public BarrelView(Integer id, Integer volume, String description, Integer cooperId, Integer woodId) {
+        this.id = id;
+        this.volume = volume;
+        this.description = description;
+        this.cooperId = cooperId;
+        this.woodId = woodId;
+    }
+
+    public BarrelView(int volume, String description, Integer cooperId, Integer woodId) {
+        this.volume = volume;
+        this.description = description;
+        this.cooperId = cooperId;
+        this.woodId = woodId;
+    }
+
     private BarrelView() {
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public int getVolume() {
+    public Integer getVolume() {
         return volume;
     }
 
@@ -91,7 +110,7 @@ public class BarrelView {
         return fillDuration;
     }
 
-    public boolean isArchived() {
+    public Boolean isArchived() {
         return isArchived;
     }
 

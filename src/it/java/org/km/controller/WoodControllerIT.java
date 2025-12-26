@@ -1,7 +1,6 @@
 package org.km.controller;
 
 import org.junit.jupiter.api.Test;
-import org.km.db.entity.Wood;
 import org.km.db.view.WoodView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,23 +29,30 @@ public class WoodControllerIT {
     @Autowired
     private TestRestTemplate testRestTemplate;
 
+    /**
+     * Проверка получения списка древесины.
+     */
     @Test
     public void testGetWoods() {
-        var response = testRestTemplate.getForEntity(WOOD_URL, WoodView[].class);
-        WoodView woods[] = response.getBody();
-        var woodList = Arrays.stream(woods).sorted((c1, c2)->c1.getId().toString().compareTo(c2.getId().toString())).toList();
+        var response = testRestTemplate.getForEntity(WOOD_URL, org.km.db.view.WoodView[].class);
+        org.km.db.view.WoodView woods[] = response.getBody();
+        var woodList = Arrays.stream(woods).toList();
         assertAll(
                 () -> assertEquals(HttpStatus.OK, response.getStatusCode()),
                 () -> assertEquals(7, woodList.size()),
-                () -> assertEquals("Ясень", woodList.get(2).getName()),
-                () -> assertEquals(1, woodList.get(1).getBarrelCount())
+                () -> assertEquals("Ясень", woodList.get(6).getName()),
+                () -> assertEquals("Castanea", woodList.get(4).getNameLat()),
+                () -> assertEquals(6, woodList.get(1).getBarrelCount())
         );
     }
 
+    /**
+     * Проверка получения записи.
+     */
     @Test
     public void testGetWood() {
-        var response = testRestTemplate.getForEntity(WOOD_URL + "/3", WoodView.class);
-        WoodView woodView = response.getBody();
+        var response = testRestTemplate.getForEntity(WOOD_URL + "/3", org.km.db.view.WoodView.class);
+        org.km.db.view.WoodView woodView = response.getBody();
         assertAll(
                 () -> assertEquals(HttpStatus.OK, response.getStatusCode()),
                 () -> assertEquals(3, woodView.getId()),
@@ -57,12 +63,15 @@ public class WoodControllerIT {
 
     @Test
     public void testGetWood_negative_not_found() {
-        var response = testRestTemplate.getForEntity(WOOD_URL + "/555", WoodView.class);
+        var response = testRestTemplate.getForEntity(WOOD_URL + "/555", org.km.db.view.WoodView.class);
         assertAll(
                 () -> assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode())
         );
     }
 
+    /**
+     * Проверка успешного добавления записи.
+     */
     @Test
     @Sql(
             statements = {"SELECT setval('wood_id_seq', 333)"},
@@ -75,8 +84,8 @@ public class WoodControllerIT {
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD
     )
     public void testAdd() {
-        var wood = new Wood(null, "Баобаб", "Adansonia");
-        var response = testRestTemplate.postForEntity(WOOD_URL, wood, Wood.class);
+        var wood = new WoodView("Баобаб", "Adansonia");
+        var response = testRestTemplate.postForEntity(WOOD_URL, wood, WoodView.class);
         var result = response.getBody();
         assertAll(
                 () -> assertEquals(HttpStatus.CREATED, response.getStatusCode()),
@@ -87,6 +96,10 @@ public class WoodControllerIT {
                 () -> assertEquals("Adansonia", result.getNameLat())
         );
     }
+
+    /**
+     * Успешное изменение записи.
+     */
     @Test
     @Sql(
             statements = {
@@ -95,24 +108,42 @@ public class WoodControllerIT {
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD
     )
     public void testUpdate() {
-        var wood = new Wood(3, "Эвкалипт", "Eucalyptus");
-        var response = testRestTemplate.exchange(WOOD_URL + "/3", HttpMethod.PUT, new HttpEntity<>(wood), Wood.class);
+        var wood = new WoodView(3, "Эвкалипт", "Eucalyptus", null);
+        var response = testRestTemplate.exchange(WOOD_URL + "/3", HttpMethod.PUT, new HttpEntity<>(wood), WoodView.class);
         var result = response.getBody();
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(result);
-        assertEquals("Эвкалипт", result.getName());
+        assertAll(
+                () -> assertEquals(HttpStatus.OK, response.getStatusCode()),
+                () -> assertNotNull(result),
+                () ->assertEquals("Эвкалипт", result.getName())
+        );
     }
 
+    /**
+     * Проверка защиты от изменения id.
+     */
+    @Test
+    public void testUpdate_negative_id_change() {
+        var wood = new WoodView(4, "Эвкалипт", "Eucalyptus", null);
+        var response = testRestTemplate.exchange(WOOD_URL + "/3", HttpMethod.PUT, new HttpEntity<>(wood), WoodView.class);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    /**
+     * Попытка изменения записи с несуществующим id.
+     */
     @Test
     public void testUpdate_negative() {
-        var wood = new Wood(1111, "Эвкалипт", "Eucalyptus");
-        var response = testRestTemplate.exchange(WOOD_URL + "/111", HttpMethod.PUT, new HttpEntity<>(wood), Wood.class);
+        var wood = new WoodView(1111, "Эвкалипт", "Eucalyptus", null);
+        var response = testRestTemplate.exchange(WOOD_URL + "/111", HttpMethod.PUT, new HttpEntity<>(wood), WoodView.class);
         var result = response.getBody();
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertNotNull(result);
         assertNull(result.getName());
     }
 
+    /**
+     * Успешное удаление записи.
+     */
     @Test
     @Sql(
             statements = {"INSERT INTO wood (id, name, name_lat) VALUES (4444, 'Псевдотсуга', 'Pseudotsuga')"},
@@ -123,12 +154,18 @@ public class WoodControllerIT {
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
     }
 
+    /**
+     * Попытка удаления записи с несуществующим id.
+     */
     @Test
     public void testDelete_negative_not_found() {
         var response = testRestTemplate.exchange(WOOD_URL + "/2222", HttpMethod.DELETE, null, Void.class, 111);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
+    /**
+     * Попытка удаления родительской записи.
+     */
     @Test
     public void testDelete_negative_conflict() {
         var response = testRestTemplate.exchange(WOOD_URL + "/1", HttpMethod.DELETE, null, Void.class, 111);

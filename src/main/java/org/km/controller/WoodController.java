@@ -1,6 +1,5 @@
 package org.km.controller;
 
-import org.km.db.entity.Wood;
 import org.km.db.view.WoodView;
 import org.km.service.CrudService;
 import org.km.service.WoodService;
@@ -18,13 +17,13 @@ import static org.km.controller.ControllerConstants.WOOD_URL;
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping(WOOD_URL)
-public class WoodController extends AbstractCrudController<WoodView, Wood> {
+public class WoodController extends AbstractCrudController<org.km.db.view.WoodView> {
 
     @Autowired
     private WoodService service;
 
     @Override
-    protected CrudService<WoodView, Wood> getService() {
+    protected CrudService<org.km.db.view.WoodView> getService() {
         return service;
     }
 
@@ -37,7 +36,7 @@ public class WoodController extends AbstractCrudController<WoodView, Wood> {
     @RequestMapping(method = RequestMethod.GET,
             value = "",
             produces = "application/json")
-    public ResponseEntity<List<WoodView>> getWoods() {
+    public ResponseEntity<List<org.km.db.view.WoodView>> getWoods() {
         return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
 
@@ -45,23 +44,22 @@ public class WoodController extends AbstractCrudController<WoodView, Wood> {
     @RequestMapping(method = RequestMethod.GET,
             value = "/{id}",
             produces = "application/json")
-    public ResponseEntity<WoodView> getWood(@PathVariable Integer id) {
-        Optional<WoodView> optionalWood = service.getById(id);
+    public ResponseEntity<org.km.db.view.WoodView> getWood(@PathVariable Integer id) {
+        Optional<org.km.db.view.WoodView> optionalWood = service.getById(id);
         return optionalWood.map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
     }
 
     @Operation(summary = "Создание древесины", description="Добавление новой древесины")
     @PostMapping(value = "", produces = "application/json")
-    public ResponseEntity<Wood> addWood(@RequestBody Wood wood) {
-        //return ResponseEntity.ok(service.add(wood));
-        return super.add(wood);
+    public ResponseEntity<org.km.db.view.WoodView> addWood(@RequestBody org.km.db.view.WoodView woodView) {
+        return super.add(woodView);
     }
 
     @Operation(summary = "Обновление древесины", description="Обновление существующей древесины")
     @PutMapping(value = "/{id}", produces = "application/json")
     @Override
-    public ResponseEntity<Wood> update(@PathVariable Integer id, @RequestBody Wood wood) {
-        return super.update(id, wood);
+    public ResponseEntity<WoodView> update(@PathVariable Integer id, @RequestBody WoodView woodView) {
+        return super.update(id, woodView);
     }
 
     @Operation(summary = "Удаление древесины", description="Удаление существующей древесины")

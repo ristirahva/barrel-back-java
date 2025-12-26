@@ -18,12 +18,12 @@ import static org.km.controller.ControllerConstants.DRINK_URL;
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping(DRINK_URL)
-public class DrinkController extends AbstractCrudController<DrinkView, Drink> {
+public class DrinkController extends AbstractCrudController<DrinkView> {
     @Autowired
     private DrinkService service;
 
     @Override
-    protected CrudService<DrinkView, Drink> getService() {
+    protected CrudService<DrinkView> getService() {
         return service;
     }
 
@@ -48,11 +48,17 @@ public class DrinkController extends AbstractCrudController<DrinkView, Drink> {
         return super.getById(id);
     }
 
+    @Operation(summary = "Создание напитка", description="Добавление нового напитка")
+    @PostMapping(value = "", produces = "application/json")
+    public ResponseEntity<DrinkView> add(@RequestBody DrinkView drinkView) {
+        return super.add(drinkView);
+    }
+
     @Operation(summary = "Обновление напитка", description="Обновление дистиллята")
     @PutMapping(value = "/{id}", produces = "application/json")
     @Override
-    public ResponseEntity<Drink> update(@PathVariable Integer id, @RequestBody Drink drink) {
-        return super.update(id, drink);
+    public ResponseEntity<DrinkView> update(@PathVariable Integer id, @RequestBody DrinkView drinkView) {
+        return super.update(id, drinkView);
     }
 
     @Operation(summary = "Удаление дистиллята", description="Удаление существующего дистиллята")

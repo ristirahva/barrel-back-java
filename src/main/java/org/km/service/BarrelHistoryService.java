@@ -12,13 +12,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class BarrelHistoryService  extends AbstractCrudService <BarrelHistoryView, BarrelHistoryReadRepository, BarrelHistory, BarrelHistoryWriteRepository> {
+public class BarrelHistoryService  extends AbstractCrudService <BarrelHistoryView, BarrelHistoryRepository> {
 
     private static final Logger log = LoggerFactory.getLogger(BarrelHistoryService.class);
 
     @Autowired
-    public BarrelHistoryService(BarrelHistoryReadRepository readRepository, BarrelHistoryWriteRepository writeRepository) {
-        super(readRepository, writeRepository);
+    public BarrelHistoryService(BarrelHistoryRepository repository) {
+        super(repository);
     }
 
     public List<BarrelHistoryView> getBarrelHistory() {

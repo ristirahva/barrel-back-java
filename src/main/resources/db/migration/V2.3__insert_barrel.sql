@@ -11,3 +11,6 @@ INSERT INTO barrel (id, cooper_id, volume, wood_id, description, is_archived) VA
 INSERT INTO barrel (id, cooper_id, volume, wood_id, description, is_archived) VALUES(11, 1, 10, (SELECT id FROM wood where name='Дуб кавказский скальный/Дуб канадский'), 'Сысоев, очень долго делали, но результат стоил того', false);
 INSERT INTO barrel (id, cooper_id, volume, wood_id, description, is_archived) VALUES(12, 1, 15, (SELECT id FROM wood where name='Ясень'), 'Сысоев сильный обжиг', false);
 INSERT INTO barrel (id, cooper_id, volume, wood_id, description, is_archived) VALUES(13, 1, 25, (SELECT id FROM wood where name='Дуб кавказский скальный'), 'Сысоев BLACK PREMIUM средний обжиг', false);
+
+SELECT setval('barrel_id_seq', 20);
+

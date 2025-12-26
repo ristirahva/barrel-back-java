@@ -1,9 +1,6 @@
 package org.km.db.view;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
@@ -11,6 +8,12 @@ import java.util.Objects;
 @Table(name="wood_view")
 public class WoodView {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_generator")
+    @SequenceGenerator(
+            name = "sequence_generator",
+            sequenceName = "wood_id_seq",
+            allocationSize = 1
+    )
     private Integer id;
 
     @Column(name="name")
@@ -30,6 +33,11 @@ public class WoodView {
         this.name = name;
         this.nameLat = nameLat;
         this.barrelCount = barrelCount;
+    }
+
+    public WoodView(String name, String nameLat) {
+        this.name = name;
+        this.nameLat = nameLat;
     }
 
     private WoodView() {

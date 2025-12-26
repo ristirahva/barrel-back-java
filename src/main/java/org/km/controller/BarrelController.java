@@ -21,13 +21,13 @@ import static org.km.controller.ControllerConstants.BARREL_URL;
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping(BARREL_URL)
-public class BarrelController extends AbstractCrudController <BarrelView, Barrel> {
+public class BarrelController extends AbstractCrudController <BarrelView> {
 
     @Autowired
     private BarrelService service;
 
     @Override
-    protected CrudService<BarrelView, Barrel> getService() {
+    protected CrudService<BarrelView> getService() {
         return service;
     }
 
@@ -83,21 +83,22 @@ public class BarrelController extends AbstractCrudController <BarrelView, Barrel
     @Operation(summary = "Создание бочки", description="Добавление новой бочки")
     @PostMapping(value = "", produces = "application/json")
     @Override
-    public ResponseEntity<Barrel> add(@RequestBody Barrel barrel) {
-        return ResponseEntity.ok(service.add(barrel));
+    public ResponseEntity<BarrelView> add(@RequestBody BarrelView barrelView) {
+        return super.add(barrelView);
     }
 
     @Operation(summary = "Изменение бочки", description="Изменение данных бочки")
     @PutMapping(value = "/{id}", produces = "application/json")
     @Override
-    public ResponseEntity<Barrel> update(@PathVariable Integer id, @RequestBody Barrel barrel) {
-        return super.update(id, barrel);
+    public ResponseEntity<BarrelView> update(@PathVariable Integer id, @RequestBody BarrelView barrelView) {
+        return super.update(id, barrelView);
     }
 
     @Operation(summary = "Удаление бочки", description="Удаление бочки")
     @DeleteMapping(value = "/{id}", produces = "application/json")
     @Override
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        return super.delete(id);
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

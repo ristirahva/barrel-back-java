@@ -34,6 +34,9 @@ public class CooperControllerIT {
     @Autowired
     private TestRestTemplate testRestTemplate;
 
+    /**
+     * Проверка получения списка.
+     */
     @Test
     public void testGetCoopers() {
         var response = testRestTemplate.getForEntity(COOPER_URL, CooperView[].class);
@@ -47,6 +50,9 @@ public class CooperControllerIT {
         );
     }
 
+    /**
+     * Проверка получения записи.
+     */
     @Test
     public void testGetCooper() {
         var response = testRestTemplate.getForEntity(COOPER_URL + "/2", CooperView.class);
@@ -59,6 +65,9 @@ public class CooperControllerIT {
         );
     }
 
+    /**
+     * Попытка получения записи по несуществующему id.
+     */
     @Test
     public void testGetCooper_negative_not_found() {
         var response = testRestTemplate.getForEntity(COOPER_URL + "/23", CooperView.class);
@@ -67,6 +76,9 @@ public class CooperControllerIT {
         );
     }
 
+    /**
+     * Проверка добавления записи.
+     */
     @Test
     @Sql(
             statements = {"SELECT setval('cooper_id_seq', 100)"},
@@ -92,6 +104,9 @@ public class CooperControllerIT {
         );
     }
 
+    /**
+     * Успешное изменение записи.
+     */
     @Test
     @Sql(
             statements = {
@@ -108,6 +123,19 @@ public class CooperControllerIT {
         assertEquals("Конюшня", result.getName());
     }
 
+    /**
+     * Проверка защиты от изменения id.
+     */
+    @Test
+    public void testUpdate_negative_id_change() {
+        var cooper = new Cooper(111, "Конюшня", "http://foo.bar");
+        var response = testRestTemplate.exchange(COOPER_URL + "/1", HttpMethod.PUT, new HttpEntity<>(cooper), Cooper.class);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    /**
+     * Попытка изменения несуществующей записи.
+     */
     @Test
     public void testUpdate_negative() {
         var cooper = new Cooper(111, "Конюшня 111", "http://foo.bar");
@@ -118,6 +146,9 @@ public class CooperControllerIT {
         assertNull(result.getName());
     }
 
+    /**
+     * Успешное удаление.
+     */
     @Test
     @Sql(
             statements = {"INSERT INTO cooper (id, name, URL) VALUES (11, 'КРокодилов', 'https://bourbon.ru/')"},
@@ -128,12 +159,18 @@ public class CooperControllerIT {
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
     }
 
+    /**
+     * Попытка удаления записи по несуществуюшему id.
+     */
     @Test
     public void testDelete_negative_not_found() {
         var response = testRestTemplate.exchange(COOPER_URL + "/111", HttpMethod.DELETE, null, Void.class, 111);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
+    /**
+     * Попытка удалить родительскую запись.
+     */
     @Test
     public void testDelete_negative_conflict() {
         var response = testRestTemplate.exchange(COOPER_URL + "/1", HttpMethod.DELETE, null, Void.class, 111);

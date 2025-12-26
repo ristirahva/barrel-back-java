@@ -22,11 +22,11 @@ import static org.km.controller.ControllerConstants.BARREL_HISTORY_URL;
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping(BARREL_HISTORY_URL)
-public class BarrelHistoryController extends AbstractCrudController <BarrelHistoryView, BarrelHistory> {
+public class BarrelHistoryController extends AbstractCrudController <BarrelHistoryView> {
     @Autowired
     private BarrelHistoryService service;
     @Override
-    protected CrudService<BarrelHistoryView, BarrelHistory> getService() {
+    protected CrudService<BarrelHistoryView> getService() {
         return service;
     }
 

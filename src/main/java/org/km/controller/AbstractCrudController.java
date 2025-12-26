@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-public abstract class AbstractCrudController<T, U> {
+public abstract class AbstractCrudController<T> {
     /**
      * Получение сервиса для работы с сущностью
      */
-    protected abstract CrudService<T, U> getService();
+    protected abstract CrudService<T> getService();
 
     protected abstract String getEntityName();
 
@@ -35,14 +35,14 @@ public abstract class AbstractCrudController<T, U> {
 
     @Operation(summary = "Создание новой записи")
     @PostMapping
-    public ResponseEntity<U> add(@RequestBody U entity) {
+    public ResponseEntity<T> add(@RequestBody T entity) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(getService().add(entity));
     }
 
     @Operation(summary = "Обновление записи")
     @PutMapping("/{id}")
-    public ResponseEntity<U> update(@PathVariable Integer id, @RequestBody U entity) {
+    public ResponseEntity<T> update(@PathVariable Integer id, @RequestBody T entity) {
         if (!getService().exists(id)) {
             throw new EntityNotFoundException(
                     String.format("%s с id=%s не найден", getEntityName(), id)

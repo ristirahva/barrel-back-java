@@ -4,5 +4,5 @@ import org.km.db.view.CooperView;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CooperReadRepository extends ReadRepository<CooperView, Integer> {
+public interface CooperReadRepository extends org.springframework.data.jpa.repository.JpaRepository<CooperView, Integer> {
 }

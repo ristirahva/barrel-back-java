@@ -16,13 +16,13 @@ public class BarrelHistoryView {
     static class Key implements Serializable {
 
         @Column(name = "drink_id")
-        private int drinkId;
+        private Integer drinkId;
 
         @Column(name = "barrel_id")
-        private int barrelId;
+        private Integer barrelId;
 
         // Конструктор
-        public Key(int drinkId, int barrelId) {
+        public Key(Integer drinkId, Integer barrelId) {
             this.drinkId = drinkId;
             this.barrelId = barrelId;
         }
@@ -48,13 +48,13 @@ public class BarrelHistoryView {
     private Key key;
 
     @Column(name="barrel_volume")
-    private int barrelVolume;
+    private Integer barrelVolume;
 
     @Column(name="drink_name")
     private String drinkName;
 
     @Column(name="wood_id")
-    private int woodId;
+    private Integer woodId;
 
     @Column(name="wood_name")
     private String woodName;
@@ -73,7 +73,7 @@ public class BarrelHistoryView {
     @Column
     private String description;
 
-    public BarrelHistoryView(Key key, int barrelVolume, String drinkName, int woodId, String woodName, LocalDate dateStart, LocalDate dateEnd, Integer alcoholStart, Integer alcoholEnd, String description) {
+    public BarrelHistoryView(Key key, int barrelVolume, String drinkName, Integer woodId, String woodName, LocalDate dateStart, LocalDate dateEnd, Integer alcoholStart, Integer alcoholEnd, String description) {
         this.key = key;
         this.barrelVolume = barrelVolume;
         this.drinkName = drinkName;
@@ -93,7 +93,7 @@ public class BarrelHistoryView {
         return key;
     }
 
-    public int getBarrelVolume() {
+    public Integer getBarrelVolume() {
         return barrelVolume;
     }
 
@@ -101,7 +101,7 @@ public class BarrelHistoryView {
         return drinkName;
     }
 
-    public int getWoodId() {
+    public Integer getWoodId() {
         return woodId;
     }
 

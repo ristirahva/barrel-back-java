@@ -19,13 +19,13 @@ import static org.km.controller.ControllerConstants.COOPER_URL;
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping(COOPER_URL)
-public class CooperController extends AbstractCrudController <CooperView, Cooper>{
+public class CooperController extends AbstractCrudController <CooperView>{
 
     @Autowired
     private CooperService service;
 
     @Override
-    protected CrudService<CooperView, Cooper> getService() {
+    protected CrudService<CooperView> getService() {
         return service;
     }
 
@@ -53,15 +53,15 @@ public class CooperController extends AbstractCrudController <CooperView, Cooper
     @Operation(summary = "Создание производителя", description="Добавление нового производителя")
     @PostMapping(value = "", produces = "application/json")
     @Override
-    public ResponseEntity<Cooper> add(@RequestBody Cooper cooper) {
-        return super.add(cooper);
+    public ResponseEntity<CooperView> add(@RequestBody CooperView cooperView) {
+        return super.add(cooperView);
     }
 
     @Operation(summary = "Обновление производителя", description="Обновление существующего производителя")
     @PutMapping(value = "/{id}", produces = "application/json")
     @Override
-    public ResponseEntity<Cooper> update(@PathVariable Integer id, @RequestBody Cooper cooper) {
-        return super.update(id, cooper);
+    public ResponseEntity<CooperView> update(@PathVariable Integer id, @RequestBody CooperView cooperView) {
+        return super.update(id, cooperView);
     }
 
     @Operation(summary = "Удаление производителя", description="Удаление существующего производителя")
