@@ -19,7 +19,6 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <postgresql.version>42.7.8</postgresql.version>
-<!--        <maven.flyway.plugin.version>9.2.3</maven.flyway.plugin.version>-->
         <maven.flyway.plugin.version>11.19.1</maven.flyway.plugin.version>
         <jakarta.persistence.api.version>3.2.0</jakarta.persistence.api.version>
         <swagger.version>2.8.4</swagger.version>
@@ -65,61 +64,72 @@
         </dependency>
 
     </dependencies>
-
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.flywaydb</groupId>
-                    <artifactId>flyway-maven-plugin</artifactId>
-                    <version>${maven.flyway.plugin.version}</version>
-                    <configuration>
-                        <user>postgres</user>
-                        <password>admin</password>
-                        <url>jdbc:postgresql://localhost:5432/barrel</url>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>3.5.4</version>
-                    <configuration>
-                        <additionalClasspathElements>
-                            <additionalClasspathElement>${basedir}/src/it/resources</additionalClasspathElement>
-                        </additionalClasspathElements>
-                        <includes>
-                            <include>**/*IT.java</include> <!-- Только интеграционные тесты -->
-                        </includes>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>integration-test</goal>
-                                <goal>verify</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>3.6.1</version>
-                    <executions>
-                        <execution>
-                            <id>add-integration-test-source-as-test-sources</id>
-                            <phase>generate-test-sources</phase>
-                            <goals>
-                                <goal>add-test-source</goal>
-                            </goals>
-                            <configuration>
-                                <sources>
-                                    <source>src/it/java</source>
-                                </sources>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>16</source>
+                    <target>16</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>${maven.flyway.plugin.version}</version>
+                <configuration>
+                    <user>postgres</user>
+                    <password>admin</password>
+                    <url>jdbc:postgresql://localhost:5432/barrel</url>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.6.1</version>
+                <executions>
+                    <execution>
+                        <id>add-integration-test-source-as-test-sources</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>add-test-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/it/java</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.5.4</version>
+                <configuration>
+                    <additionalClasspathElements>
+                        <additionalClasspathElement>${basedir}/src/it/resources</additionalClasspathElement>
+                    </additionalClasspathElements>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>failsafe-integration-tests</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>integration-test</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>failsafe-verify</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 
 </project>
