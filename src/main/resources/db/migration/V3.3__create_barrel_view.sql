@@ -1,5 +1,5 @@
 CREATE VIEW barrel_view AS
-SELECT b.id, b.volume, b.description, b.is_archived, 
+SELECT b.id, b.volume, b.burn_level, b.description, b.is_archived, 
 c.id cooper_id, c.name cooper_name, 
 w.id wood_id, w.name wood_name, 
 COUNT(bh) fill_count, 

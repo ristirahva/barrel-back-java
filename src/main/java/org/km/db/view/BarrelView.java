@@ -1,8 +1,9 @@
 package org.km.db.view;
 
 import jakarta.persistence.*;
+import org.km.db.entity.Barrel;
+import org.km.db.util.BurnLevelEnumConverter;
 
-import java.time.Period;
 import java.util.Objects;
 
 @Entity
@@ -19,6 +20,13 @@ public class BarrelView {
 
     @Column(name="volume")
     private Integer volume;
+
+    /**
+     * Степень обжига.
+     */
+    @Column(name="burn_level")
+    @Convert(converter = BurnLevelEnumConverter.class)
+    private Barrel.BurnLevel burnLevel;
 
     @Column(name="description")
     private String description;
@@ -44,9 +52,10 @@ public class BarrelView {
     @Column(name="is_archived")
     private Boolean isArchived;
 
-    public BarrelView(Integer id, Integer volume, String description, Integer cooperId, String cooperName, Integer woodId, String woodName, Integer fillCount, String fillDuration, Boolean isArchived) {
+    public BarrelView(Integer id, Integer volume, Barrel.BurnLevel burnLevel, String description, Integer cooperId, String cooperName, Integer woodId, String woodName, Integer fillCount, String fillDuration, Boolean isArchived) {
         this.id = id;
         this.volume = volume;
+        this.burnLevel = burnLevel;
         this.description = description;
         this.cooperId = cooperId;
         this.cooperName = cooperName;
@@ -56,16 +65,18 @@ public class BarrelView {
         this.fillDuration = fillDuration;
     }
 
-    public BarrelView(Integer id, Integer volume, String description, Integer cooperId, Integer woodId) {
+    public BarrelView(Integer id, Integer volume, Barrel.BurnLevel burnLevel, String description, Integer cooperId, Integer woodId) {
         this.id = id;
         this.volume = volume;
+        this.burnLevel = burnLevel;
         this.description = description;
         this.cooperId = cooperId;
         this.woodId = woodId;
     }
 
-    public BarrelView(int volume, String description, Integer cooperId, Integer woodId) {
+    public BarrelView(int volume, Barrel.BurnLevel burnLevel, String description, Integer cooperId, Integer woodId) {
         this.volume = volume;
+        this.burnLevel = burnLevel;
         this.description = description;
         this.cooperId = cooperId;
         this.woodId = woodId;
@@ -80,6 +91,10 @@ public class BarrelView {
 
     public Integer getVolume() {
         return volume;
+    }
+
+    public Barrel.BurnLevel getBurnLevel() {
+        return burnLevel;
     }
 
     public String getDescription() {

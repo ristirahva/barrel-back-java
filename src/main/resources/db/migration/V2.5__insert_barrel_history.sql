@@ -30,7 +30,7 @@ INSERT INTO barrel_history (barrel_id, drink_id, date_start, alcohol_start, date
 INSERT INTO barrel_history (barrel_id, drink_id, date_start, alcohol_start, date_end, alcohol_end) VALUES(7, 24, '2025-07-01', 42, null, null);
 
 INSERT INTO barrel_history (barrel_id, drink_id, date_start, alcohol_start, date_end, alcohol_end) VALUES(8, 25, '2024-04-02', 42, '2025-02-02', 42);
-INSERT INTO barrel_history (barrel_id, drink_id, date_start, alcohol_start, date_end, alcohol_end) VALUES(8, 26, '2025-02-02', 38, null, null);
+INSERT INTO barrel_history (barrel_id, drink_id, date_start, alcohol_start, date_end, alcohol_end) VALUES(8, 26, '2025-02-02', 38, '2026-01-02', 40);
 
 INSERT INTO barrel_history (barrel_id, drink_id, date_start, alcohol_start, date_end, alcohol_end) VALUES(9, 27, '2024-04-08', 39, '2025-07-08', 39);
 INSERT INTO barrel_history (barrel_id, drink_id, date_start, alcohol_start, date_end, alcohol_end) VALUES(9, 28, '2025-07-09', 41, null, null);

@@ -2,6 +2,7 @@ package org.km.controller;
 
 import org.junit.jupiter.api.Test;
 
+import org.km.db.entity.Barrel;
 import org.km.db.view.BarrelView;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +75,7 @@ public class BarrelControllerIT {
         assertAll(
                 () -> assertEquals(HttpStatus.OK, response.getStatusCode()),
                 () -> assertEquals(6, barrelList.size()),
+                () -> assertEquals(Barrel.BurnLevel.MEDIUM, barrelList.get(1).getBurnLevel()),
                 () -> assertEquals(10, barrelList.get(2).getVolume()),
                 () -> assertEquals(20, barrelList.get(3).getVolume())
         );
@@ -87,7 +89,8 @@ public class BarrelControllerIT {
                 () -> assertEquals(HttpStatus.OK, response.getStatusCode()),
                 () -> assertEquals(2, barrelView.getId()),
                 () -> assertEquals("Из Дуба", barrelView.getCooperName()),
-                () -> assertEquals(5, barrelView.getVolume())
+                () -> assertEquals(5, barrelView.getVolume()),
+                () -> assertEquals(Barrel.BurnLevel.MEDIUM, barrelView.getBurnLevel())
         );
     }
 
@@ -118,7 +121,7 @@ public class BarrelControllerIT {
     )
     public void testAdd() {
 
-        var barrelView = new BarrelView(100, "Большая бочка", 2, 2);
+        var barrelView = new BarrelView(100, Barrel.BurnLevel.MEDIUM, "Большая бочка", 2, 2);
         var response = testRestTemplate.postForEntity(BARREL_URL, barrelView, BarrelView.class);
         var result = response.getBody();
         assertAll(
@@ -126,6 +129,7 @@ public class BarrelControllerIT {
                 () -> assertNotNull(result),
                 () -> assertNotNull(result.getId()),
                 () -> assertEquals(301, result.getId()),
+                () -> assertEquals(Barrel.BurnLevel.MEDIUM, result.getBurnLevel()),
                 () -> assertEquals("Большая бочка", result.getDescription())
         );
     }
@@ -136,7 +140,7 @@ public class BarrelControllerIT {
     @Test
     public void testAdd_negative_not_found() {
 
-        var barrelView = new BarrelView(100, "Большая бочка", 200, 2000);
+        var barrelView = new BarrelView(100, Barrel.BurnLevel.MEDIUM, "Большая бочка", 200, 2000);
         var response = testRestTemplate.postForEntity(BARREL_URL, barrelView, BarrelView.class);
         assertAll(
                 () -> assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode())
@@ -154,7 +158,7 @@ public class BarrelControllerIT {
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD
     )
     public void testUpdate() {
-        var barrelView = new BarrelView(1, 35, "Средняя бочка", 1, 1);
+        var barrelView = new BarrelView(1, 35, Barrel.BurnLevel.MEDIUM, "Средняя бочка", 1, 1);
         var response = testRestTemplate.exchange(BARREL_URL + "/1", HttpMethod.PUT, new HttpEntity<>(barrelView), BarrelView.class);
         var result = response.getBody();
         assertAll(
@@ -169,7 +173,7 @@ public class BarrelControllerIT {
      */
     @Test
     public void testUpdate_negative_id_change() {
-        var barrelView = new BarrelView(111, 35, "Средняя бочка", 1, 1);
+        var barrelView = new BarrelView(111, 35, Barrel.BurnLevel.MEDIUM, "Средняя бочка", 1, 1);
         var response = testRestTemplate.exchange(BARREL_URL + "/1", HttpMethod.PUT, new HttpEntity<>(barrelView), BarrelView.class);
         assertAll(
                 () -> assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode())
@@ -181,7 +185,7 @@ public class BarrelControllerIT {
      */
     @Test
     public void testUpdate_negative_not_found() {
-        var barrelView = new BarrelView(1111, 35, "Средняя бочка", 1, 1);
+        var barrelView = new BarrelView(1111, 35, Barrel.BurnLevel.MEDIUM, "Средняя бочка", 1, 1);
         var response = testRestTemplate.exchange(BARREL_URL + "/111", HttpMethod.PUT, new HttpEntity<>(barrelView), BarrelView.class);
         assertAll(
                 () -> assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode())
@@ -193,7 +197,7 @@ public class BarrelControllerIT {
      */
     @Test
     @Sql(
-            statements = {"INSERT INTO barrel (id, cooper_id, wood_id, volume, description) VALUES (111, 1, 1, 150, 'тестовая запись для удаления')"},
+            statements = {"INSERT INTO barrel (id, cooper_id, wood_id, volume, burn_level, description) VALUES (111, 1, 1, 150, 'слабый', 'тестовая запись для удаления')"},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
     )
     public void testDelete() {

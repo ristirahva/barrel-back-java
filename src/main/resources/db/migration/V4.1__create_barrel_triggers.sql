@@ -18,8 +18,8 @@ BEGIN
     
     -- Основная логика вставки
     IF cooper_exists AND wood_exists THEN
-        INSERT INTO barrel (volume, description, cooper_id, wood_id)
-        VALUES (NEW.volume, NEW.description, NEW.cooper_id, NEW.wood_id);
+        INSERT INTO barrel (volume, burn_level, description, cooper_id, wood_id)
+        VALUES (NEW.volume, NEW.burn_level, NEW.description, NEW.cooper_id, NEW.wood_id);
         
         RETURN NEW;
     ELSE
@@ -79,7 +79,7 @@ BEGIN
     
     -- Основная логика вставки
     IF barrel_exists AND cooper_exists AND wood_exists THEN
-        UPDATE barrel SET volume = NEW.volume, description = NEW.description, cooper_id = NEW.cooper_id, wood_id = NEW.wood_id
+        UPDATE barrel SET volume = NEW.volume, burn_level = NEW.burn_level, description = NEW.description, cooper_id = NEW.cooper_id, wood_id = NEW.wood_id
             WHERE id = NEW.id;
         
         RETURN NEW;

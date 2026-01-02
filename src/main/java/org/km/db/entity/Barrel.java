@@ -1,8 +1,11 @@
 package org.km.db.entity;
 
 import jakarta.persistence.*;
+import org.km.db.util.BurnLevelEnumConverter;
+import org.km.exception.ApplicationException;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -24,6 +27,13 @@ public class Barrel {
      */
     @Column(name="volume")
     private Integer volume;
+
+    /**
+     * Степень обжига.
+     */
+    @Column(name="burn_level")
+    @Convert(converter = BurnLevelEnumConverter.class)
+    private BurnLevel burnLevel;
 
     /**
      * Примечание.
@@ -53,9 +63,10 @@ public class Barrel {
     /**
      * Дата и время создания записи.
      */
+    @Column(name="created_at")
     private LocalDateTime createdAt;
 
-    public Barrel(Cooper cooper, Wood wood, Integer id, Integer volume, String description, boolean isArchived) {
+    public Barrel(Cooper cooper, Wood wood, Integer id, Integer volume, BurnLevel burnLevel, String description, boolean isArchived) {
         this.cooper = cooper;
         this.wood = wood;
         this.id = id;
@@ -74,6 +85,10 @@ public class Barrel {
         return volume;
     }
 
+    public BurnLevel getBurnLevel() {
+        return burnLevel;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -84,6 +99,10 @@ public class Barrel {
 
     public Wood getWood() {
         return wood;
+    }
+
+    public boolean isArchived() {
+        return isArchived;
     }
 
     @Override
@@ -109,5 +128,28 @@ public class Barrel {
                 ", wood=" + wood +
                 ", createdAt='" + createdAt + '\'' +
                 '}';
+    }
+
+    public enum BurnLevel {
+        LIGHT("слабый"),
+        MEDIUM("средний"),
+        HEAVY("сильный");
+
+        private final String name;
+
+        BurnLevel(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public static BurnLevel fromName(String name) {
+            return Arrays.stream(values())
+                    .filter(burnLevel -> burnLevel.name.equalsIgnoreCase(name))
+                    .findFirst()
+                    .orElseThrow(() ->new ApplicationException("Несуществующий уровень обжига бочки: " + name));
+        }
     }
 }
